@@ -8,7 +8,7 @@ export default function Bio() {
         <div className="mt-8 space-y-6 text-amber-100">
           <div className="relative float-right ml-6 mb-6">
             <Image
-              src="/honeycomb-frame.png"
+              src="/honeycomb-frame.png.jpeg"
               alt="Maya Endo"
               width={300}
               height={300}
