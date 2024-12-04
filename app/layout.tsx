@@ -8,6 +8,19 @@ const raleway = Raleway({ subsets: ["latin"] })
 export const metadata: Metadata = {
   title: "Maya Endo - Electronic Press Kit",
   description: "Official Electronic Press Kit for Maya Endo",
+  icons: {
+    icon: [
+      {
+        url: "/favicon/maya-endo-logo.png",
+        href: "/favicon/maya-endo-logo.png",
+      },
+    ],
+    apple: [
+      {
+        url: "/favicon/maya-endo-logo.png",
+      },
+    ],
+  },
 }
 
 export default function RootLayout({
