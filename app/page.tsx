@@ -10,7 +10,7 @@ export default function Home() {
         </div>
         <div className="relative">
           <Image
-            src="/MAYA%20ENDO%20LOGO-CzYSFZnopD9m5joQzXqynkmLL859XL.png"
+            src="/maya-endo-logo.png"
             alt="Maya Endo Logo"
             width={400}
             height={400}

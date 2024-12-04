@@ -17,7 +17,7 @@ export function Navigation() {
         <div className="flex h-16 items-center justify-between">
           <Link href="/" className="flex items-center space-x-2">
             <Image
-              src="/MAYA%20ENDO%20LOGO-CzYSFZnopD9m5joQzXqynkmLL859XL.png"
+              src="/maya-endo-logo.png"
               alt="Maya Endo Logo"
               width={48}
               height={48}
