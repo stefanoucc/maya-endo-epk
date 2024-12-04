@@ -4,9 +4,9 @@ export default function Press() {
       <h1 className="text-center font-serif text-4xl font-bold italic text-amber-400">Press</h1>
       <div className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         <div className="rounded-lg border border-amber-900/50 bg-black/40 p-6 backdrop-blur-sm">
-          <h3 className="text-xl font-semibold text-amber-300">Maya Endo estrena videoclip de "Habitación"</h3>
+          <h3 className="text-xl font-semibold text-amber-300">Maya Endo estrena videoclip de &ldquo;Habitación&rdquo;</h3>
           <p className="mt-2 text-amber-200">La República - 2024</p>
-          <p className="mt-4 text-amber-100">La cantante y compositora peruana Maya Endo estrenó el videoclip de su más reciente sencillo "Habitación"...</p>
+          <p className="mt-4 text-amber-100">La cantante y compositora peruana Maya Endo estrenó el videoclip de su más reciente sencillo &ldquo;Habitación&rdquo;...</p>
           <a
             href="https://larepublica.pe/cultural/2024/03/15/maya-endo-estrena-videoclip-de-habitacion-1467180"
             target="_blank"
@@ -30,7 +30,7 @@ export default function Press() {
           </a>
         </div>
         <div className="rounded-lg border border-amber-900/50 bg-black/40 p-6 backdrop-blur-sm">
-          <h3 className="text-xl font-semibold text-amber-300">Maya Endo vuelve con tema musical "2033"</h3>
+          <h3 className="text-xl font-semibold text-amber-300">Maya Endo vuelve con tema musical &ldquo;2033&rdquo;</h3>
           <p className="mt-2 text-amber-200">Infobae - 2023</p>
           <p className="mt-4 text-amber-100">Su nueva etapa de innovación sonora en R&B y Hip Hop marca un hito en su evolución musical...</p>
           <a
