@@ -11,18 +11,17 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "Maya Endo - Electronic Press Kit",
-  description: "Official Electronic Press Kit for Maya Endo",
+  title: "MAYA ENDO",
+  description: "Maya Endo Spoiler",
   icons: {
     icon: [
       {
-        url: "/favicon/maya-endo-logo.png",
-        href: "/favicon/maya-endo-logo.png",
+        url: "/favicon/nuevo_logo.ico",
       },
     ],
     apple: [
       {
-        url: "/favicon/maya-endo-logo.png",
+        url: "/favicon/nuevo_logo.ico",
       },
     ],
   },

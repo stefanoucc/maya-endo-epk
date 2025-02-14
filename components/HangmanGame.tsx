@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const WORD_TOP = "TODO ESO"
 const WORD_BOTTOM = "QUE SOÑÉ"
@@ -8,30 +9,27 @@ const ALPHABET = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("")
 
 const HANGMAN_PARTS = [
   // Base
-  <line key="base" x1="20" y1="230" x2="180" y2="230" stroke="black" strokeWidth="4"/>,
+  <line key="base" x1="40" y1="140" x2="160" y2="140" stroke="black" strokeWidth="3"/>,
   // Vertical pole
-  <line key="pole" x1="40" y1="230" x2="40" y2="30" stroke="black" strokeWidth="4"/>,
+  <line key="pole" x1="60" y1="140" x2="60" y2="20" stroke="black" strokeWidth="3"/>,
   // Top
-  <line key="top" x1="40" y1="30" x2="120" y2="30" stroke="black" strokeWidth="4"/>,
+  <line key="top" x1="60" y1="20" x2="100" y2="20" stroke="black" strokeWidth="3"/>,
   // Rope
-  <line key="rope" x1="120" y1="30" x2="120" y2="60" stroke="black" strokeWidth="4"/>,
+  <line key="rope" x1="100" y1="20" x2="100" y2="40" stroke="black" strokeWidth="3"/>,
   // Head
-  <circle key="head" cx="120" cy="80" r="20" stroke="black" strokeWidth="4" fill="none"/>,
-  // Body
-  <line key="body" x1="120" y1="100" x2="120" y2="150" stroke="black" strokeWidth="4"/>,
-  // Arms
-  <g key="arms">
-    <line x1="120" y1="120" x2="80" y2="140" stroke="black" strokeWidth="4"/>
-    <line x1="120" y1="120" x2="160" y2="140" stroke="black" strokeWidth="4"/>
-  </g>,
-  // Legs
-  <g key="legs">
-    <line x1="120" y1="150" x2="80" y2="190" stroke="black" strokeWidth="4"/>
-    <line x1="120" y1="150" x2="160" y2="190" stroke="black" strokeWidth="4"/>
+  <circle key="head" cx="100" cy="50" r="10" stroke="black" strokeWidth="3" fill="none"/>,
+  // Body and rest
+  <g key="body">
+    <line x1="100" y1="60" x2="100" y2="90" stroke="black" strokeWidth="3"/>
+    <line x1="100" y1="75" x2="80" y2="85" stroke="black" strokeWidth="3"/>
+    <line x1="100" y1="75" x2="120" y2="85" stroke="black" strokeWidth="3"/>
+    <line x1="100" y1="90" x2="80" y2="110" stroke="black" strokeWidth="3"/>
+    <line x1="100" y1="90" x2="120" y2="110" stroke="black" strokeWidth="3"/>
   </g>
 ]
 
 export default function HangmanGame() {
+  const router = useRouter()
   const [guessedLetters, setGuessedLetters] = useState<string[]>(['D', 'Ñ'])
   const [mistakes, setMistakes] = useState(0)
 
@@ -70,8 +68,13 @@ export default function HangmanGame() {
     setMistakes(0)
   }
 
+  if (isWon) {
+    router.push('/sorpresa')
+    return null
+  }
+
   return (
-    <div className="flex flex-col items-center gap-8 p-6">
+    <div className="relative flex flex-col items-center gap-8 p-6">
       <div className="flex flex-col items-center gap-4">
         <div className="text-5xl tracking-wider text-black font-instrument">
           {maskedWordTop}
@@ -86,7 +89,7 @@ export default function HangmanGame() {
           <button
             key={letter}
             onClick={() => handleLetterClick(letter)}
-            disabled={guessedLetters.includes(letter) || mistakes >= 8 || isWon}
+            disabled={guessedLetters.includes(letter) || mistakes >= 6 || isWon}
             className={`w-12 h-12 text-xl font-instrument transition-colors
               ${guessedLetters.includes(letter) 
                 ? (WORD_TOP + WORD_BOTTOM).split("").map(normalizeChar).join("").includes(letter)
@@ -103,22 +106,27 @@ export default function HangmanGame() {
       </div>
 
       <div className="flex justify-center">
-        <svg width="200" height="250" className="border-2 border-black rounded-lg p-4">
-          {HANGMAN_PARTS.slice(0, mistakes)}
+        <svg width="200" height="160" className="border-2 border-black rounded-lg p-4">
+          {mistakes > 0 && HANGMAN_PARTS.slice(0, mistakes)}
         </svg>
       </div>
 
-      {(mistakes >= 8 || isWon) && (
-        <div className="flex flex-col items-center gap-3">
-          <p className="text-2xl text-black font-instrument">
-            {isWon ? "¡Ganaste! 🎉" : "¡Perdiste! 😢"}
-          </p>
-          <button
-            onClick={resetGame}
-            className="px-6 py-3 text-lg bg-black text-white rounded-lg hover:bg-gray-800 font-instrument"
-          >
-            Jugar de nuevo
-          </button>
+      {mistakes >= 6 && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg shadow-xl text-center">
+            <p className="text-3xl text-black font-instrument mb-4">
+              ¡Perdiste! 😢
+            </p>
+            <p className="text-lg text-black font-instrument mb-6">
+              ¡No te rindas! Inténtalo de nuevo.
+            </p>
+            <button
+              onClick={resetGame}
+              className="px-6 py-3 text-lg bg-black text-white rounded-lg hover:bg-gray-800 font-instrument"
+            >
+              Jugar de nuevo
+            </button>
+          </div>
         </div>
       )}
     </div>
