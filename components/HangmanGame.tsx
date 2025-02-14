@@ -71,23 +71,23 @@ export default function HangmanGame() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-12 p-8">
-      <div className="flex flex-col items-center gap-6">
-        <div className="text-6xl tracking-wider text-black font-instrument">
+    <div className="flex flex-col items-center gap-8 p-6">
+      <div className="flex flex-col items-center gap-4">
+        <div className="text-5xl tracking-wider text-black font-instrument">
           {maskedWordTop}
         </div>
-        <div className="text-6xl tracking-wider text-black font-instrument">
+        <div className="text-5xl tracking-wider text-black font-instrument">
           {maskedWordBottom}
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-3 max-w-4xl">
+      <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
         {ALPHABET.map((letter) => (
           <button
             key={letter}
             onClick={() => handleLetterClick(letter)}
             disabled={guessedLetters.includes(letter) || mistakes >= 8 || isWon}
-            className={`w-16 h-16 text-2xl font-instrument transition-colors
+            className={`w-12 h-12 text-xl font-instrument transition-colors
               ${guessedLetters.includes(letter) 
                 ? (WORD_TOP + WORD_BOTTOM).split("").map(normalizeChar).join("").includes(letter)
                   ? "bg-green-500 text-white"
@@ -103,19 +103,19 @@ export default function HangmanGame() {
       </div>
 
       <div className="flex justify-center">
-        <svg width="300" height="350" className="border-2 border-black rounded-lg p-4">
+        <svg width="200" height="250" className="border-2 border-black rounded-lg p-4">
           {HANGMAN_PARTS.slice(0, mistakes)}
         </svg>
       </div>
 
       {(mistakes >= 8 || isWon) && (
-        <div className="flex flex-col items-center gap-4">
-          <p className="text-3xl text-black font-instrument">
+        <div className="flex flex-col items-center gap-3">
+          <p className="text-2xl text-black font-instrument">
             {isWon ? "¡Ganaste! 🎉" : "¡Perdiste! 😢"}
           </p>
           <button
             onClick={resetGame}
-            className="px-8 py-4 text-xl bg-black text-white rounded-lg hover:bg-gray-800 font-instrument"
+            className="px-6 py-3 text-lg bg-black text-white rounded-lg hover:bg-gray-800 font-instrument"
           >
             Jugar de nuevo
           </button>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 import { Raleway, Instrument_Serif } from 'next/font/google'
 import "./globals.css"
-import { Navigation } from "@/components/navigation"
 
 const raleway = Raleway({ subsets: ["latin"] })
 
@@ -39,7 +38,6 @@ export default function RootLayout({
       <body className={`${raleway.className} bg-black text-amber-100`}>
         <div className="min-h-screen bg-[url('/honeycomb-bg.png')] bg-cover bg-fixed bg-center">
           <div className="min-h-screen bg-black/70">
-            <Navigation />
             <main>{children}</main>
           </div>
         </div>
