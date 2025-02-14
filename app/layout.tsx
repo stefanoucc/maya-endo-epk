@@ -1,9 +1,15 @@
 import type { Metadata } from "next"
-import { Raleway } from 'next/font/google'
+import { Raleway, Instrument_Serif } from 'next/font/google'
 import "./globals.css"
 import { Navigation } from "@/components/navigation"
 
 const raleway = Raleway({ subsets: ["latin"] })
+
+const instrumentSerif = Instrument_Serif({
+  weight: '400',
+  subsets: ['latin'],
+  variable: '--font-instrument'
+})
 
 export const metadata: Metadata = {
   title: "Maya Endo - Electronic Press Kit",
@@ -29,7 +35,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${instrumentSerif.variable}`}>
       <body className={`${raleway.className} bg-black text-amber-100`}>
         <div className="min-h-screen bg-[url('/honeycomb-bg.png')] bg-cover bg-fixed bg-center">
           <div className="min-h-screen bg-black/70">

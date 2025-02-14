@@ -12,32 +12,20 @@ export function Navigation() {
   }
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-amber-900/20 bg-black/60 backdrop-blur-sm">
+    <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white">
       <div className="container mx-auto px-4">
-        <div className="flex h-16 items-center justify-between">
-          <Link href="/" className="flex items-center space-x-2">
-            <Image
-              src="/maya-endo-logo.png"
-              alt="Maya Endo Logo"
-              width={48}
-              height={48}
-              className="h-12 w-auto"
-            />
+        <div className="flex h-64 items-center justify-center">
+          <Link href="/" className="flex items-center">
+            <div className="relative h-64">
+              <Image
+                src="/NUEVO LOGO.png"
+                alt="Maya Endo Logo"
+                width={1000}
+                height={1000}
+                className="w-auto h-full"
+              />
+            </div>
           </Link>
-          <div className="flex space-x-8">
-            <Link href="/bio" className={`${isActive("/bio")} transition-colors`}>
-              Bio
-            </Link>
-            <Link href="/work" className={`${isActive("/work")} transition-colors`}>
-              Work
-            </Link>
-            <Link href="/press" className={`${isActive("/press")} transition-colors`}>
-              Press
-            </Link>
-            <Link href="/gallery" className={`${isActive("/gallery")} transition-colors`}>
-              Gallery
-            </Link>
-          </div>
         </div>
       </div>
     </nav>
