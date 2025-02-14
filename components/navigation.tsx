@@ -1,16 +1,9 @@
 "use client"
 
 import Link from "next/link"
-import { usePathname } from "next/navigation"
 import Image from "next/image"
 
 export function Navigation() {
-  const pathname = usePathname()
-
-  const isActive = (path: string) => {
-    return pathname === path ? "text-amber-400" : "text-amber-200 hover:text-amber-300"
-  }
-
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-gray-100 bg-white">
       <div className="container mx-auto px-4">
