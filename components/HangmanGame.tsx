@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 
 const WORD_TOP = "TODO ESO"
 const WORD_BOTTOM = "QUE SOÑÉ"
