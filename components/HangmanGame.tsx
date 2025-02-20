@@ -114,7 +114,10 @@ export default function HangmanGame() {
         ))}
       </div>
 
-      <div className="flex justify-center">
+      <div className="flex justify-center relative">
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-3 text-black font-instrument text-sm border-2 border-black rounded-md">
+          intentos {mistakes}/5
+        </div>
         <svg width="200" height="160" className="border-2 border-black rounded-lg p-4">
           <defs>
             <style>
@@ -127,6 +130,10 @@ export default function HangmanGame() {
                     stroke-dashoffset: 0;
                   }
                 }
+                @font-face {
+                  font-family: 'Instrument Sans';
+                  src: url('/fonts/InstrumentSans-Regular.woff2') format('woff2');
+                }
               `}
             </style>
           </defs>
@@ -138,7 +145,7 @@ export default function HangmanGame() {
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
           <div className="bg-[#FFF8E1] px-10 py-8 rounded-lg shadow-xl text-center relative max-w-[90%] w-[280px]">
             <img 
-              src="/maya-endo-logo.png" 
+              src="/NUEVO LOGO.png" 
               alt="Maya Endo Logo" 
               className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-32 h-44 object-contain"
             />
