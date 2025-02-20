@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import { Raleway, Instrument_Serif } from 'next/font/google'
+import { Analytics } from '@vercel/analytics/react'
 import "./globals.css"
 
 const raleway = Raleway({ subsets: ["latin"] })
@@ -38,6 +39,7 @@ export default function RootLayout({
         <div className="min-h-screen bg-[url('/honeycomb-bg.png')] bg-cover bg-fixed bg-center">
           <div className="min-h-screen bg-black/70">
             <main>{children}</main>
+            <Analytics />
           </div>
         </div>
       </body>
