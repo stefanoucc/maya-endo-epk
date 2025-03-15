@@ -1,39 +1,100 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 const WORD_TOP = "TODO ESO"
 const WORD_BOTTOM = "QUE SOÑÉ"
 const ALPHABET = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("")
 
+// Define a smiling man SVG component
+const SMILING_MAN = (
+  <g key="smiling-man">
+    {/* Head */}
+    <circle cx="100" cy="50" r="20" stroke="white" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 126, strokeDashoffset: 126 }}/>
+    
+    {/* Smiling mouth */}
+    <path d="M90,55 Q100,65 110,55" stroke="white" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 26, strokeDashoffset: 26 }}/>
+    
+    {/* Eyes */}
+    <circle cx="92" cy="45" r="3" stroke="white" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 19, strokeDashoffset: 19 }}/>
+    <circle cx="108" cy="45" r="3" stroke="white" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 19, strokeDashoffset: 19 }}/>
+    
+    {/* Body */}
+    <line x1="100" y1="70" x2="100" y2="110" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 40, strokeDashoffset: 40 }}/>
+    
+    {/* Arms */}
+    <line x1="100" y1="85" x2="80" y2="75" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
+    <line x1="100" y1="85" x2="120" y2="75" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
+    
+    {/* Legs */}
+    <line x1="100" y1="110" x2="85" y2="130" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
+    <line x1="100" y1="110" x2="115" y2="130" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
+  </g>
+)
+
 const HANGMAN_PARTS = [
   // Base
-  <line key="base" x1="40" y1="140" x2="160" y2="140" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 120, strokeDashoffset: 120 }}/>,
+  <line key="base" x1="40" y1="140" x2="160" y2="140" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 120, strokeDashoffset: 120 }}/>,
   // Vertical pole
-  <line key="pole" x1="60" y1="140" x2="60" y2="20" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 120, strokeDashoffset: 120 }}/>,
+  <line key="pole" x1="60" y1="140" x2="60" y2="20" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 120, strokeDashoffset: 120 }}/>,
   // Top
-  <line key="top" x1="60" y1="20" x2="100" y2="20" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 40, strokeDashoffset: 40 }}/>,
+  <line key="top" x1="60" y1="20" x2="100" y2="20" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 40, strokeDashoffset: 40 }}/>,
   // Head (4th attempt)
   <g key="head-group">
-    <line key="rope" x1="100" y1="20" x2="100" y2="40" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 20, strokeDashoffset: 20 }}/>
-    <circle key="head" cx="100" cy="50" r="10" stroke="black" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 63, strokeDashoffset: 63 }}/>
+    <line key="rope" x1="100" y1="20" x2="100" y2="40" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 20, strokeDashoffset: 20 }}/>
+    <circle key="head" cx="100" cy="50" r="10" stroke="white" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 63, strokeDashoffset: 63 }}/>
   </g>,
   // Complete body (5th attempt)
   <g key="full-body">
-    <line key="body" x1="100" y1="60" x2="100" y2="90" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 30, strokeDashoffset: 30 }}/>
-    <line key="leftArm" x1="100" y1="75" x2="80" y2="85" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 22, strokeDashoffset: 22 }}/>
-    <line key="rightArm" x1="100" y1="75" x2="120" y2="85" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 22, strokeDashoffset: 22 }}/>
-    <line key="leftLeg" x1="100" y1="90" x2="80" y2="110" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
-    <line key="rightLeg" x1="100" y1="90" x2="120" y2="110" stroke="black" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
+    <line key="body" x1="100" y1="60" x2="100" y2="90" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 30, strokeDashoffset: 30 }}/>
+    <line key="leftArm" x1="100" y1="75" x2="80" y2="85" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 22, strokeDashoffset: 22 }}/>
+    <line key="rightArm" x1="100" y1="75" x2="120" y2="85" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 22, strokeDashoffset: 22 }}/>
+    <line key="leftLeg" x1="100" y1="90" x2="80" y2="110" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
+    <line key="rightLeg" x1="100" y1="90" x2="120" y2="110" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
   </g>
 ]
 
 export default function HangmanGame() {
   const router = useRouter()
-  const [guessedLetters, setGuessedLetters] = useState<string[]>(['D', 'Ñ'])
-  const [mistakes, setMistakes] = useState(0)
-  const [showLosePopup, setShowLosePopup] = useState(false)
+  
+  // Get all unique letters from the words
+  const getAllUniqueLetters = () => {
+    const allLetters = (WORD_TOP + WORD_BOTTOM).split("")
+      .filter(char => char !== " ")
+      .map(char => char === 'É' ? 'E' : char);
+    return Array.from(new Set(allLetters));
+  };
+  
+  // Initialize with all letters revealed
+  const [guessedLetters, setGuessedLetters] = useState<string[]>(['D', 'Ñ']);
+  
+  useEffect(() => {
+    // Simulate solving the puzzle with a delay
+    const timer1 = setTimeout(() => {
+      setGuessedLetters(prev => [...prev, 'T', 'O']);
+    }, 500);
+    
+    const timer2 = setTimeout(() => {
+      setGuessedLetters(prev => [...prev, 'E', 'S']);
+    }, 1000);
+    
+    const timer3 = setTimeout(() => {
+      setGuessedLetters(prev => [...prev, 'Q', 'U']);
+    }, 1500);
+    
+    const timer4 = setTimeout(() => {
+      // Reveal all remaining letters
+      setGuessedLetters(getAllUniqueLetters());
+    }, 2000);
+    
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
+      clearTimeout(timer4);
+    };
+  }, []);
 
   const normalizeChar = (char: string) => {
     return char === 'É' ? 'E' : char
@@ -49,76 +110,22 @@ export default function HangmanGame() {
   const maskedWordTop = getMaskedWord(WORD_TOP)
   const maskedWordBottom = getMaskedWord(WORD_BOTTOM)
 
-  const isWon = (WORD_TOP + WORD_BOTTOM).split("").every(letter => 
-    letter === " " || guessedLetters.includes(normalizeChar(letter))
-  )
-
-  const handleLetterClick = (letter: string) => {
-    if (guessedLetters.includes(letter)) return
-    
-    setGuessedLetters([...guessedLetters, letter])
-    const normalizedTop = WORD_TOP.split("").map(normalizeChar).join("")
-    const normalizedBottom = WORD_BOTTOM.split("").map(normalizeChar).join("")
-    
-    if (!normalizedTop.includes(letter) && !normalizedBottom.includes(letter)) {
-      setMistakes(prev => {
-        const newMistakes = prev + 1
-        if (newMistakes >= 5) {
-          setTimeout(() => setShowLosePopup(true), 100)
-        }
-        return newMistakes
-      })
-    }
-  }
-
-  const resetGame = () => {
-    setGuessedLetters(['D', 'Ñ'])
-    setMistakes(0)
-    setShowLosePopup(false)
-  }
-
-  if (isWon) {
-    router.push('/sorpresa')
-    return null
-  }
-
   return (
     <div className="relative flex flex-col items-center gap-8 p-6">
       <div className="flex flex-col items-center gap-4">
-        <div className="text-5xl tracking-wider text-black font-instrument">
+        <div className="text-3xl tracking-wider text-white font-instrument">
           {maskedWordTop}
         </div>
-        <div className="text-5xl tracking-wider text-black font-instrument">
+        <div className="text-3xl tracking-wider text-white font-instrument">
           {maskedWordBottom}
         </div>
       </div>
 
-      <div className="flex flex-wrap justify-center gap-2 max-w-3xl">
-        {ALPHABET.map((letter) => (
-          <button
-            key={letter}
-            onClick={() => handleLetterClick(letter)}
-            disabled={guessedLetters.includes(letter) || mistakes >= 5 || isWon}
-            className={`w-12 h-12 text-xl font-instrument transition-colors
-              ${guessedLetters.includes(letter) 
-                ? (WORD_TOP + WORD_BOTTOM).split("").map(normalizeChar).join("").includes(letter)
-                  ? "bg-green-500 text-white"
-                  : "bg-red-500 text-white"
-                : "bg-white border-2 border-black text-black hover:bg-gray-100"
-              }
-              disabled:opacity-50 disabled:cursor-not-allowed
-            `}
-          >
-            {letter}
-          </button>
-        ))}
-      </div>
-
       <div className="flex justify-center relative">
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-white px-3 text-black font-instrument text-sm border-2 border-black rounded-md">
-          intentos {mistakes}/5
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-800 px-3 py-1 text-white font-instrument text-sm border-2 border-gray-400 rounded-md text-center min-w-[120px]">
+          juego completado
         </div>
-        <svg width="200" height="160" className="border-2 border-black rounded-lg p-4">
+        <svg width="200" height="160" className="border-2 border-gray-400 rounded-lg p-4">
           <defs>
             <style>
               {`
@@ -137,32 +144,9 @@ export default function HangmanGame() {
               `}
             </style>
           </defs>
-          {HANGMAN_PARTS.slice(0, Math.min(5, mistakes + 1))}
+          {SMILING_MAN}
         </svg>
       </div>
-
-      {showLosePopup && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="bg-[#FFF8E1] px-10 py-8 rounded-lg shadow-xl text-center relative max-w-[90%] w-[280px]">
-            <img 
-              src="/NUEVO LOGO.png" 
-              alt="Maya Endo Logo" 
-              className="absolute -top-20 left-1/2 transform -translate-x-1/2 w-32 h-44 object-contain"
-            />
-            <div className="mt-10">
-              <p className="text-2xl text-black font-instrument mb-6">
-                 :/ ... intenta de nuevo
-              </p>
-              <button
-                onClick={resetGame}
-                className="px-6 py-2 text-lg bg-[#FDB813] text-black rounded-lg hover:bg-[#F1A900] font-instrument transition-colors"
-              >
-                jugar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   )
 } 
