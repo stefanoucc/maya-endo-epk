@@ -1,11 +1,9 @@
 "use client"
 
 import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 
 const WORD_TOP = "TODO ESO"
 const WORD_BOTTOM = "QUE SOÑÉ"
-const ALPHABET = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ".split("")
 
 // Define a smiling man SVG component
 const SMILING_MAN = (
@@ -33,31 +31,7 @@ const SMILING_MAN = (
   </g>
 )
 
-const HANGMAN_PARTS = [
-  // Base
-  <line key="base" x1="40" y1="140" x2="160" y2="140" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 120, strokeDashoffset: 120 }}/>,
-  // Vertical pole
-  <line key="pole" x1="60" y1="140" x2="60" y2="20" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 120, strokeDashoffset: 120 }}/>,
-  // Top
-  <line key="top" x1="60" y1="20" x2="100" y2="20" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 40, strokeDashoffset: 40 }}/>,
-  // Head (4th attempt)
-  <g key="head-group">
-    <line key="rope" x1="100" y1="20" x2="100" y2="40" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 20, strokeDashoffset: 20 }}/>
-    <circle key="head" cx="100" cy="50" r="10" stroke="white" strokeWidth="2" fill="none" className="animate-draw" style={{ strokeDasharray: 63, strokeDashoffset: 63 }}/>
-  </g>,
-  // Complete body (5th attempt)
-  <g key="full-body">
-    <line key="body" x1="100" y1="60" x2="100" y2="90" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 30, strokeDashoffset: 30 }}/>
-    <line key="leftArm" x1="100" y1="75" x2="80" y2="85" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 22, strokeDashoffset: 22 }}/>
-    <line key="rightArm" x1="100" y1="75" x2="120" y2="85" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 22, strokeDashoffset: 22 }}/>
-    <line key="leftLeg" x1="100" y1="90" x2="80" y2="110" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
-    <line key="rightLeg" x1="100" y1="90" x2="120" y2="110" stroke="white" strokeWidth="2" className="animate-draw" style={{ strokeDasharray: 25, strokeDashoffset: 25 }}/>
-  </g>
-]
-
 export default function HangmanGame() {
-  const router = useRouter()
-  
   // Get all unique letters from the words
   const getAllUniqueLetters = () => {
     const allLetters = (WORD_TOP + WORD_BOTTOM).split("")
