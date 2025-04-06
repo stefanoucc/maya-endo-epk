@@ -9,6 +9,12 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+      screens: {
+        'xs': '480px',
+      },
+      fontFamily: {
+        satoshi: ['var(--font-satoshi)'],
+      },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

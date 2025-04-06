@@ -1,11 +1,15 @@
 import Image from "next/image"
 import dynamic from "next/dynamic"
+import { redirect } from "next/navigation"
 
 const HangmanGame = dynamic(() => import("@/components/HangmanGame"), {
   ssr: false
 })
 
 export default function Home() {
+  redirect('/quiz1');
+  
+  // Note: The code below won't run after the redirect
   return (
     <div className="min-h-screen bg-black">
       <div className="flex flex-col items-center">
@@ -45,7 +49,13 @@ export default function Home() {
             rel="noopener noreferrer"
             className="transition-transform hover:scale-110"
           >
-            <img src="/YOUTUBE.png" alt="YouTube" className="w-8 h-8 object-contain" />
+            <Image 
+              src="/YOUTUBE.png" 
+              alt="YouTube" 
+              width={32} 
+              height={32}
+              className="object-contain"
+            />
           </a>
           <a 
             href="https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi" 
@@ -53,7 +63,13 @@ export default function Home() {
             rel="noopener noreferrer"
             className="transition-transform hover:scale-110"
           >
-            <img src="/SPOTI.png" alt="Spotify" className="w-8 h-8 object-contain" />
+            <Image 
+              src="/SPOTI.png" 
+              alt="Spotify" 
+              width={32} 
+              height={32}
+              className="object-contain"
+            />
           </a>
           <a 
             href="https://instagram.com/_mayaendo" 
@@ -61,7 +77,13 @@ export default function Home() {
             rel="noopener noreferrer"
             className="transition-transform hover:scale-110"
           >
-            <img src="/INSTA.png" alt="Instagram" className="w-8 h-8 object-contain" />
+            <Image 
+              src="/INSTA.png" 
+              alt="Instagram" 
+              width={32} 
+              height={32}
+              className="object-contain"
+            />
           </a>
           <a 
             href="https://tiktok.com/@_mayaendo" 
@@ -69,7 +91,13 @@ export default function Home() {
             rel="noopener noreferrer"
             className="transition-transform hover:scale-110"
           >
-            <img src="/TIKTOK.png" alt="TikTok" className="w-8 h-8 object-contain" />
+            <Image 
+              src="/TIKTOK.png" 
+              alt="TikTok" 
+              width={32} 
+              height={32}
+              className="object-contain"
+            />
           </a>
           <a 
             href="https://music.apple.com/pe/artist/maya-endo/1587969753" 
@@ -77,7 +105,13 @@ export default function Home() {
             rel="noopener noreferrer"
             className="transition-transform hover:scale-110"
           >
-            <img src="/APPLE MUSIC.png" alt="Apple Music" className="w-8 h-8 object-contain" />
+            <Image 
+              src="/APPLE MUSIC.png" 
+              alt="Apple Music" 
+              width={32} 
+              height={32}
+              className="object-contain"
+            />
           </a>
         </div>
         
