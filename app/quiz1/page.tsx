@@ -166,14 +166,14 @@ export default function Quiz1Page() {
         <Image 
           src="/NUEVO LOGO.png"
           alt="Maya Endo Logo"
-          width={300}
-          height={150}
+          width={600}
+          height={600}
           className="w-full h-auto object-contain"
           priority
         />
       </div>
       
-      <h1 className="text-xl md:text-2xl lg:text-3xl text-[#A6050D] font-medium mb-8 md:mb-12 text-center fade-in-1 font-satoshi">
+      <h1 className="text-xl md:text-2xl lg:text-3xl text-[#A6050D] font-medium mb-8 md:mb-10 text-center fade-in-1 font-satoshi">
         elige tu taza<br />
         la historia comienza aquí...
       </h1>

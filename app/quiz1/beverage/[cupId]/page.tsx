@@ -100,8 +100,8 @@ export default function BeverageSelectionPage({ params }: { params: { cupId: str
         <Image 
           src="/NUEVO LOGO.png"
           alt="Maya Endo Logo"
-          width={300}
-          height={150}
+          width={600}
+          height={600}
           className="w-full h-auto object-contain"
           priority
         />

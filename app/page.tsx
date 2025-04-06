@@ -6,10 +6,17 @@ const HangmanGame = dynamic(() => import("@/components/HangmanGame"), {
   ssr: false
 })
 
-export default function Home() {
-  redirect('/quiz1');
+export default function Home({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined }
+}) {
+  // Only redirect if not coming from navbar (no 'from' parameter)
+  if (!searchParams.from) {
+    redirect('/quiz1');
+  }
   
-  // Note: The code below won't run after the redirect
+  // This code will run if accessed from navbar
   return (
     <div className="min-h-screen bg-black">
       <div className="flex flex-col items-center">

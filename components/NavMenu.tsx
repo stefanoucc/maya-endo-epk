@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const navigationLinks = [
-  { href: "/", label: "Teaser", logo: "/LOGO darkmode.png" },
+  { href: "/?from=navbar", label: "Home", logo: "/LOGO darkmode.png" },
   { href: "/quiz1", label: "Quiz 1", logo: "/LOGO darkmode.png" },
 ];
 
@@ -42,7 +42,7 @@ export default function NavMenu() {
   useEffect(() => {
     // Set active link based on current path
     const pathname = window.location.pathname;
-    setActiveLink(pathname);
+    setActiveLink(pathname === '/' ? '/?from=navbar' : pathname);
     
     // Check if mobile view
     const checkIfMobile = () => {
@@ -134,52 +134,89 @@ export default function NavMenu() {
           </nav>
           
           <div className="mt-auto pt-8 pb-6">
-            <div className="flex gap-6 justify-center">
-              <a 
-                href="https://www.youtube.com/@mayaendo" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="transition-transform hover:scale-110 p-2"
-                aria-label="YouTube"
-              >
-                <Image 
-                  src="/YOUTUBE.png" 
-                  alt="YouTube" 
-                  width={24} 
-                  height={24}
-                  className="object-contain w-5 h-5 md:w-6 md:h-6" 
-                />
-              </a>
-              <a 
-                href="https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="transition-transform hover:scale-110 p-2"
-                aria-label="Spotify"
-              >
-                <Image 
-                  src="/SPOTI.png" 
-                  alt="Spotify" 
-                  width={24} 
-                  height={24}
-                  className="object-contain w-5 h-5 md:w-6 md:h-6" 
-                />
-              </a>
-              <a 
-                href="https://instagram.com/_mayaendo" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="transition-transform hover:scale-110 p-2"
-                aria-label="Instagram"
-              >
-                <Image 
-                  src="/INSTA.png" 
-                  alt="Instagram" 
-                  width={24} 
-                  height={24}
-                  className="object-contain w-5 h-5 md:w-6 md:h-6" 
-                />
-              </a>
+            <div className="flex flex-col gap-6">
+              {/* First row: YouTube, Spotify, Instagram */}
+              <div className="flex justify-center gap-8">
+                <a 
+                  href="https://www.youtube.com/@mayaendo" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110 p-2"
+                  aria-label="YouTube"
+                >
+                  <Image 
+                    src="/YOUTUBE.png" 
+                    alt="YouTube" 
+                    width={28} 
+                    height={28}
+                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
+                  />
+                </a>
+                <a 
+                  href="https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110 p-2"
+                  aria-label="Spotify"
+                >
+                  <Image 
+                    src="/SPOTI.png" 
+                    alt="Spotify" 
+                    width={28} 
+                    height={28}
+                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
+                  />
+                </a>
+                <a 
+                  href="https://instagram.com/_mayaendo" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110 p-2"
+                  aria-label="Instagram"
+                >
+                  <Image 
+                    src="/INSTA.png" 
+                    alt="Instagram" 
+                    width={28} 
+                    height={28}
+                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
+                  />
+                </a>
+              </div>
+              
+              {/* Second row: TikTok, Apple Music */}
+              <div className="flex justify-center gap-8">
+                <a 
+                  href="https://tiktok.com/@_mayaendo" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110 p-2"
+                  aria-label="TikTok"
+                >
+                  <Image 
+                    src="/TIKTOK.png" 
+                    alt="TikTok" 
+                    width={28} 
+                    height={28}
+                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
+                  />
+                </a>
+                <a 
+                  href="https://music.apple.com/pe/artist/maya-endo/1587969753" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="transition-transform hover:scale-110 p-2"
+                  aria-label="Apple Music"
+                >
+                  <Image 
+                    src="/APPLE MUSIC.png" 
+                    alt="Apple Music" 
+                    width={28} 
+                    height={28}
+                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
