@@ -21,14 +21,14 @@ const beverageOptions = [
     name: "",
     image: "/quiz1/tev2.png",
     popupImage: "/quiz1/te2v2.png",
-    message: "Fe se acabó el té. dice que hacer infusiones le da la sensación de estar cuidando a alguien (a ella misma)"
+    message: "Se acabó el té. Alguien estuvo enferma y la tuvimos que cuidar."
   },
   {
     id: "cafe",
     name: "",
     image: "/quiz1/cafe1v2.png",
     popupImage: "/quiz1/cafe2v2.png",
-    message: "Franco se acabó el café anoche, dibujando para El Semanero"
+    message: "Se acabó el café anoche, alguien se amaneció dibujando."
   },
   {
     id: "vinotinto",

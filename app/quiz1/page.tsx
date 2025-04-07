@@ -26,15 +26,15 @@ const cupTexts = [
   },
   {
     title: "guardián del bosque",
-    description: "elegiste esta taza porque te gusta caminar descalz@ sobre el pasto, no?"
+    description: "elegiste la taza de alguien que se toma literalmente lo de 'no mata ni a una mosca'."
   },
   {
     title: "la de expedición",
-    description: "esta taza guarda calor por más tiempo, aunque no lo aparente. como tú, que eres más calid@ por dentro que por fuera"
+    description: "esta taza guarda calor por más tiempo, aunque no lo aparente. como tú, que eres más calid@ por dentro."
   },
   {
     title: "el hazmereír",
-    description: "elegiste la taza que se ríe antes de que empiece el chiste.como tú."
+    description: "elegiste la taza que se ríe antes de que empiece el chiste. como tú."
   }
 ];
 
