@@ -21,14 +21,14 @@ const beverageOptions = [
     name: "",
     image: "/quiz1/tev2.png",
     popupImage: "/quiz1/te2v2.png",
-    message: "Se acabó el té. Alguien estuvo enferma y la tuvimos que cuidar."
+    message: "se acabó el té. alguien estuvo enferma y la tuvimos que cuidar."
   },
   {
     id: "cafe",
     name: "",
     image: "/quiz1/cafe1v2.png",
     popupImage: "/quiz1/cafe2v2.png",
-    message: "Se acabó el café anoche, alguien se amaneció dibujando."
+    message: "se acabó el café anoche, alguien se amaneció dibujando."
   },
   {
     id: "vinotinto",
