@@ -21,14 +21,14 @@ const beverageOptions = [
     name: "",
     image: "/quiz1/tev2.png",
     popupImage: "/quiz1/te2v2.png",
-    message: "la caja está vacía.\n\nFe dice que hacer infusiones le da la sensación de estar cuidando a alguien.\n\na veces, a ella misma"
+    message: "Fe se acabó el té. dice que hacer infusiones le da la sensación de estar cuidando a alguien (a ella misma)"
   },
   {
     id: "cafe",
     name: "",
     image: "/quiz1/cafe1v2.png",
     popupImage: "/quiz1/cafe2v2.png",
-    message: "ya no queda café. Franco se lo acabó.\n\nanoche se madrugó dibujando para El Semanero."
+    message: "Franco se acabó el café anoche, dibujando para El Semanero"
   },
   {
     id: "vinotinto",
@@ -128,7 +128,7 @@ export default function BeverageSelectionPage({ params }: { params: { cupId: str
             />
           </div>
           <h1 className="text-xl md:text-2xl text-[#A6050D] font-medium font-satoshi">
-            elige qué servir en tu taza
+          ¿qué te gustaría servirte hoy?
           </h1>
         </div>
       </div>

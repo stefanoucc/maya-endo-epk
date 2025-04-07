@@ -18,23 +18,23 @@ const cupImages = [
 const cupTexts = [
   {
     title: "fuera de temporada",
-    description: "elegiste la taza que no sabe en qué mes está.\n\nprobablemente seas la persona que se emociona armando el árbol y que llora con películas que terminan bien."
+    description: "elegiste la taza que no sabe en qué mes está. te emocionas armando el árbol, no?"
   },
   {
     title: "la clásica de mamá",
-    description: "elegiste la taza de mamá en domingo.\n\nfamiliar, predecible… como los abrazos que importan."
+    description: "elegiste la taza de mamá en domingo. familiar, predecible… como los abrazos que importan."
   },
   {
     title: "guardián del bosque",
-    description: "nadie sabe bien si esta taza es un gato, un búho o un espíritu del bosque.\n\ncomo tú, que tampoco te dejas encasillar."
+    description: "elegiste esta taza porque te gusta caminar descalz@ sobre el pasto, no?"
   },
   {
     title: "la de expedición",
-    description: "elegiste la taza que no se rompe fácil. como tú. aunque a veces te gustaría."
+    description: "esta taza guarda calor por más tiempo, aunque no lo aparente. como tú, que eres más calid@ por dentro que por fuera"
   },
   {
     title: "el hazmereír",
-    description: "elegiste la taza que se ríe antes de que empiece el chiste.\n\ncomo tú."
+    description: "elegiste la taza que se ríe antes de que empiece el chiste.como tú."
   }
 ];
 
