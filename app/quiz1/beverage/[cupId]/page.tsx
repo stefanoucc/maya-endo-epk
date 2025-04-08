@@ -34,7 +34,7 @@ const beverageOptions = [
     id: "vinotinto",
     name: "",
     image: "/quiz1/vinotintov2.png",
-    popupImage: "/quiz1/vinotintov2.png",
+    popupImage: "/quiz1/vino en taza gif 2.gif",
     message: "si solo queda vino, brindemos.\n\n\"vino en taza\"\n\nprimer single del álbum.\n\nestreno en mayo de 2025."
   },
 ];
@@ -173,22 +173,22 @@ export default function BeverageSelectionPage({ params }: { params: { cupId: str
               <X size={24} />
             </button>
             
-            <div className="text-center pt-6">
-              <div className="relative w-48 h-48 mx-auto mb-4">
+            <div className="text-center pt-4">
+              <div className="relative w-64 h-48 mx-auto">
                 <Image
                   src={popupImage}
                   alt="Selected beverage"
                   fill
                   className="object-contain"
-                  sizes="192px"
+                  sizes="256px"
                 />
               </div>
               
-              <p className="text-[#A6050D] text-xl font-satoshi mb-6 whitespace-pre-line">{popupMessage}</p>
+              <p className="text-[#A6050D] text-xl font-satoshi mt-0 mb-6 whitespace-pre-line">{popupMessage}</p>
               
               <button 
                 onClick={closePopup}
-                className="bg-[#A6050D] hover:bg-[#8A0000] text-white font-satoshi font-medium py-2 px-8 rounded-full transition-colors duration-200 mt-4"
+                className="bg-[#A6050D] hover:bg-[#8A0000] text-white font-satoshi font-medium py-2 px-8 rounded-full transition-colors duration-200"
               >
                 elegir otra bebida
               </button>

@@ -164,7 +164,7 @@ export default function Quiz1Page() {
     <div className="min-h-screen bg-[#FFEFE1] flex flex-col justify-center items-center p-4 md:p-8">
       <div className="w-full max-w-xs mb-6 md:mb-8">
         <Image 
-          src="/NUEVO LOGO.png"
+          src="/quiz1/vino en taza gif1.gif"
           alt="Maya Endo Logo"
           width={600}
           height={600}
