@@ -71,14 +71,15 @@ export default function Quiz2Page() {
   };
 
   useEffect(() => {
-    if (typeof navigator !== "undefined" && navigator.share && navigator.canShare) {
-      // Basic check, navigator.canShare for files is more specific
-      // For simplicity, we assume if navigator.share exists, it might work for basic sharing.
-      // A more robust check would be navigator.canShare({ files: [dummyFile] })
+    if (typeof navigator !== "undefined" && typeof navigator.share === 'function') {
+      // Check if navigator.share is defined and is a function.
+      // The more specific navigator.canShare({ files: ...}) check happens in handleShare.
       setIsSharingSupported(true);
+    } else {
+      setIsSharingSupported(false); // Explicitly set to false if not supported
     }
   }, []);
-// asd
+
   useEffect(() => {
     if (showPopup) {
       document.body.style.overflow = 'hidden';
