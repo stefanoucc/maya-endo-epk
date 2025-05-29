@@ -78,7 +78,7 @@ export default function Quiz2Page() {
       setIsSharingSupported(true);
     }
   }, []);
-
+// asd
   useEffect(() => {
     if (showPopup) {
       document.body.style.overflow = 'hidden';
