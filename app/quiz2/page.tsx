@@ -14,10 +14,10 @@ const viewOptions = [
 
 // Define element options
 const elementOptions = [
-  { id: "a", name: "gato sobre un libro", image: "/quiz2/elements/elemnt_a.png", description: "alguien ya eligió su lugar favorito y no se va a mover pronto" },
-  { id: "b", name: "cassette con audífonos", image: "/quiz2/elements/element_b.png", description: "no has invitado al tiempo y solo hay claridad" },
-  { id: "c", name: "pareja de rulosos", image: "/quiz2/elements/element_c.png", description: "rulos rulos rulos rulos"  },
-  { id: "d", name: "cafetera y cappuccinos", image: "/quiz2/elements/element_d.png", description: "empieza a oler a fin de semana" }
+  { id: "a", name: "gato sobre un libro", image: "/quiz2/elements/elemnt_a.png" },
+  { id: "b", name: "cassette con audífonos", image: "/quiz2/elements/element_b.png" },
+  { id: "c", name: "pareja de rulosos", image: "/quiz2/elements/element_c.png"  },
+  { id: "d", name: "cafetera y cappuccinos", image: "/quiz2/elements/element_d.png" }
 ];
 
 
@@ -30,9 +30,9 @@ const finalMessages: { [key: string]: { title: string; message: string } } = {
 export default function Quiz2Page() {
   const [currentStep, setCurrentStep] = useState<"view" | "element" | "final">("view");
   const [selectedView, setSelectedView] = useState<typeof viewOptions[0] | null>(null);
-  const [selectedElement, setSelectedElement] = useState<typeof elementOptions[0] | null>(null);
+  const [selectedElement, setSelectedElement] = useState<Omit<typeof elementOptions[0], 'description'> | null>(null);
   const [showPopup, setShowPopup] = useState(false);
-  const [popupContent, setPopupContent] = useState<{ title: string; description: string; image: string } | null>(null);
+  const [popupContent, setPopupContent] = useState<{ title: string; description?: string; image: string } | null>(null);
   const [isSharingSupported, setIsSharingSupported] = useState(false);
   
   const handleViewSelect = (view: typeof viewOptions[0]) => {
@@ -41,9 +41,9 @@ export default function Quiz2Page() {
     setShowPopup(true);
   };
 
-  const handleElementSelect = (element: typeof elementOptions[0]) => {
+  const handleElementSelect = (element: Omit<typeof elementOptions[0], 'description'>) => {
     setSelectedElement(element);
-    setPopupContent({ title: element.name, description: element.description, image: element.image });
+    setPopupContent({ title: element.name, image: element.image });
     setShowPopup(true);
   };
 
@@ -71,11 +71,12 @@ export default function Quiz2Page() {
   };
 
   useEffect(() => {
-    if (typeof navigator !== "undefined" && navigator.share && navigator.canShare) {
-      // Basic check, navigator.canShare for files is more specific
-      // For simplicity, we assume if navigator.share exists, it might work for basic sharing.
-      // A more robust check would be navigator.canShare({ files: [dummyFile] })
+    if (typeof navigator !== "undefined" && typeof navigator.share === 'function') {
+      // Check if navigator.share is defined and is a function.
+      // The more specific navigator.canShare({ files: ...}) check happens in handleShare.
       setIsSharingSupported(true);
+    } else {
+      setIsSharingSupported(false); // Explicitly set to false if not supported
     }
   }, []);
 
@@ -91,11 +92,11 @@ export default function Quiz2Page() {
   const getHeadingText = () => {
     if (currentStep === "view") return {
       main: "¿dónde construirías tu pequeño mundo?",
-      sub: "Haz clic en una imagen para empezar"
+      sub: "haz clic en una imagen para empezar"
     };
     if (currentStep === "element") return {
       main: "¿qué llevarías contigo a este lugar?",
-      sub: `Has elegido la vista: ${selectedView?.name || ''}`
+      sub: selectedView ? `has elegido la vista: ${selectedView.name}` : "primero elige una vista"
     };
     if (currentStep === "final") return {
       main: "",
@@ -108,13 +109,13 @@ export default function Quiz2Page() {
 
   const finalImageKey = selectedView && selectedElement ? `${selectedView.id}_${selectedElement.id}` : null;
   const finalImageSrc = finalImageKey ? `/quiz2/final/${finalImageKey}.png` : "/NUEVO LOGO.png";
-  const finalImageFilename = finalImageKey ? `maya_endo_refugio_${finalImageKey}.png` : "maya_endo_imagen.png";
+  const finalImageFilename = finalImageKey ? `maya_endo_pequeno_mundo_${finalImageKey}.png` : "maya_endo_imagen.png";
   const finalMessage = finalImageKey && finalMessages[finalImageKey] 
     ? finalMessages[finalImageKey] 
     : (finalImageKey && finalMessages[finalImageKey.split('_')[0] + '_default']) // Try view-specific default
     || (finalImageKey && finalMessages['default_' + finalImageKey.split('_')[1]]) // Try element-specific default
     || finalMessages["default"] // Absolute default
-    || { title: "Resultado Final", message: "Aquí está la combinación de tu vista y elemento." };
+    || { title: "resultado final", message: "aquí está la combinación de tu vista y elemento." };
 
   const handleDownload = () => {
     if (!finalImageSrc || finalImageSrc === "/NUEVO LOGO.png") return;
@@ -188,7 +189,7 @@ export default function Quiz2Page() {
               <SelectableItemImage 
                 key={item.id}
                 item={item}
-                onClick={() => currentStep === "view" ? handleViewSelect(item as typeof viewOptions[0]) : handleElementSelect(item as typeof elementOptions[0])}
+                onClick={() => currentStep === "view" ? handleViewSelect(item as typeof viewOptions[0]) : handleElementSelect(item as Omit<typeof elementOptions[0], 'description'>)}
                 isSelected={currentStep === 'view' ? selectedView?.id === item.id : selectedElement?.id === item.id}
               />
             ))}
@@ -221,7 +222,7 @@ export default function Quiz2Page() {
               className="w-full sm:w-auto bg-[#7E6C5F] hover:bg-[#6A5A50] active:bg-[#584B43] text-white font-satoshi font-medium py-2.5 px-6 rounded-full transition-colors duration-200 flex items-center justify-center text-md shadow-md hover:shadow-lg"
             >
               <RotateCcw size={18} className="mr-2" />
-              Comenzar de nuevo
+              reintentar
             </button>
             <button 
               onClick={handleDownload}
@@ -229,7 +230,7 @@ export default function Quiz2Page() {
               disabled={!finalImageKey}
             >
               <Download size={18} className="mr-2" />
-              Descargar
+              descargar
             </button>
             <button 
               onClick={handleShare}
@@ -238,7 +239,7 @@ export default function Quiz2Page() {
               title={!isSharingSupported ? "Compartir no disponible en este navegador" : "Compartir imagen"}
             >
               <Share2 size={18} className="mr-2" />
-              Compartir
+              compartir
             </button>
           </div>
           <p className="text-center text-sm text-black/60 mt-5 font-satoshi">
@@ -276,16 +277,18 @@ export default function Quiz2Page() {
                 {popupContent.title}
               </h2>
               
-              <p className="text-black/70 font-satoshi text-sm md:text-base mb-5 px-1">
-                {popupContent.description}
-              </p>
+              {popupContent.description && (
+                <p className="text-black/70 font-satoshi text-sm md:text-base mb-5 px-1">
+                  {popupContent.description}
+                </p>
+              )}
               
               <div className="flex justify-center">
                 <button 
                   onClick={confirmSelection}
                   className="bg-[#7E6C5F] hover:bg-[#6A5A50] active:bg-[#584B43] text-white font-satoshi font-semibold py-2 px-10 rounded-full transition-colors duration-200 text-md md:text-lg shadow-md hover:shadow-lg"
                 >
-                  Confirmar
+                  confirmar
                 </button>
               </div>
             </div>
@@ -300,7 +303,7 @@ interface ItemProps {
   id: string;
   name: string;
   image: string;
-  description: string;
+  description?: string;
 }
 
 function SelectableItemImage({ item, onClick, isSelected }: { item: ItemProps; onClick: () => void; isSelected: boolean }) {
