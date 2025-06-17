@@ -77,7 +77,7 @@ export default function MatchCalculatorPage() {
           calculadora de compatibilidad
         </h1>
         <p className="text-md md:text-lg text-gray-200 mb-8 md:mb-10 text-center fade-in-1">
-          descubre la compatibilidad que se esconde en sus nombres
+          descubre la afinidad que se esconde en sus nombres
         </p>
 
         <form onSubmit={handleSubmit} className="w-full max-w-sm fade-in-2 space-y-4">
