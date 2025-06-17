@@ -127,7 +127,7 @@ export default function MatchCalculatorPage() {
                         </div>
                     </div>
                     <div className="mt-8">
-                        <p className="text-2xl font-bold text-white">'Mala Suerte'</p>
+                        <p className="text-2xl font-bold text-white">&apos;Mala Suerte&apos;</p>
                         <p className="text-lg text-gray-300 mt-1">Maya Endo ft FABIAN</p>
                         <p className="text-lg text-gray-300 mt-1">20/06/2025</p>
                         <a
@@ -150,7 +150,7 @@ export default function MatchCalculatorPage() {
                     </div>
                     </div>
                     <div className="mt-8">
-                        <p className="text-2xl font-bold text-white">'Mala Suerte'</p>
+                        <p className="text-2xl font-bold text-white tracking-wider">&apos;Mala Suerte&apos;</p>
                         <p className="text-lg text-gray-300 mt-1">Maya Endo ft FABIAN</p>
                         <p className="text-lg text-gray-300 mt-1">20/06/2025</p>
                         <a
