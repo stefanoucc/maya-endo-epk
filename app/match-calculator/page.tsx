@@ -13,11 +13,11 @@ export default function MatchCalculatorPage() {
 
   const calculateCompatibility = () => {
     if (!name1.trim() || !name2.trim()) {
-      setError('Por favor, ingresa ambos nombres.');
+      setError('por favor, ingresa ambos nombres.');
       return;
     }
     if (/\d/.test(name1) || /\d/.test(name2)) {
-      setError('Los nombres no deben contener números.');
+      setError('los nombres no deben contener números.');
       return;
     }
     setError('');
@@ -150,7 +150,7 @@ export default function MatchCalculatorPage() {
                     </div>
                     </div>
                     <div className="mt-8">
-                        <p className="text-2xl font-bold text-white tracking-wider">'Mala Suerte'</p>
+                        <p className="text-2xl font-bold text-white">'Mala Suerte'</p>
                         <p className="text-lg text-gray-300 mt-1">Maya Endo ft FABIAN</p>
                         <p className="text-lg text-gray-300 mt-1">20/06/2025</p>
                         <a
