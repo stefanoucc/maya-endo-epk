@@ -181,3 +181,50 @@ body {
     transform: scale(1);
   }
 }
+
+@keyframes ping-slow {
+  75%, 100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes move-twink-back {
+    from {background-position:0 0;}
+    to {background-position:-10000px 5000px;}
+}
+
+.stars, .stars2, .stars3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.stars {
+  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQMAAACXljzdAAAABlBMVEX////+AAD9ogTcAAAAAnRSTlMAgJsr3QAAADlJREFUeNrtwQENAAAAwiD7p7bHBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIUR2gAB7qCBAAAAAElFTkSuQmCC') repeat top center;
+  z-index: 0;
+}
+
+.stars2 {
+  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQMAAACXljzdAAAABlBMVEX////+AAD9ogTcAAAAAnRSTlMAgJsr3QAAADlJREFUeNrtwQENAAAAwiD7p7bHBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIUR2gAB7qCBAAAAAElFTkSuQmCC') repeat top center;
+  z-index: 1;
+  animation: move-twink-back 200s linear infinite;
+}
+
+.stars3 {
+  background: transparent url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAADIAQMAAACXljzdAAAABlBMVEX////+AAD9ogTcAAAAAnRSTlMAgJsr3QAAADlJREFUeNrtwQENAAAAwiD7p7bHBwwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgIUR2gAB7qCBAAAAAElFTkSuQmCC') repeat top center;
+  z-index: 0;
+  animation: move-twink-back 240s linear infinite;
+}
+
+@layer components {
+  .fade-in-1 {
+    animation: fadeIn 0.5s ease-in-out forwards;
+    opacity: 0;
+  }
+}

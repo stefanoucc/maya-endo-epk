@@ -9,6 +9,7 @@ const navigationLinks = [
   { href: "/?from=navbar", label: "Home", logo: "/LOGO darkmode.png" },
   { href: "/quiz1", label: "Quiz 1", logo: "/LOGO darkmode.png" },
   { href: "/quiz2", label: "Quiz 2", logo: "/LOGO darkmode.png" },
+  { href: "/match-calculator", label: "Match Calculator", logo: "/LOGO darkmode.png" },
 ];
 
 export function MenuButton({ onClick }: { onClick: () => void }) {
