@@ -111,7 +111,6 @@ export default function MatchCalculatorPage() {
              {compatibility > 50 ? (
                 <>
                     <p className="text-xl text-yellow-300">¡increíble compatibilidad!</p>
-                    <p className="text-xl text-yellow-300">no tuvieron...</p>
                     <div className="relative w-48 h-48 mx-auto mt-4 flex items-center justify-center">
                         <div className="absolute inset-0 bg-yellow-300/20 rounded-full animate-ping-slow"></div>
                         <div className="relative w-40 h-40 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-4 border-yellow-300/50">
@@ -119,6 +118,7 @@ export default function MatchCalculatorPage() {
                         </div>
                     </div>
                     <div className="mt-8">
+                    <p className="text-xl text-yellow-300">no tuvieron...</p>
                         <p className="text-2xl font-bold text-white">&apos;Mala Suerte&apos;</p>
                         <p className="text-lg text-gray-300 mt-1">Maya Endo ft FABIAN</p>
                         <a
