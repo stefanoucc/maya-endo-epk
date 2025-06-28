@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { track } from '@vercel/analytics';
 
 export default function MatchCalculatorPage() {
+  const [showPopup, setShowPopup] = useState(true);
   const [name1, setName1] = useState('');
   const [name2, setName2] = useState('');
   const [compatibility, setCompatibility] = useState<number | null>(null);
@@ -157,6 +159,38 @@ export default function MatchCalculatorPage() {
           </div>
         )}
       </div>
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4">
+          <div className="relative bg-black rounded-lg shadow-xl max-w-md w-full">
+            <a href="https://www.joinnus.com/events/concerts/lima-maya-endo-en-concierto-julio-2025-70104" target="_blank" rel="noopener noreferrer">
+              <Image 
+                src="/IMG_4033.JPG" 
+                alt="Maya Endo en concierto" 
+                width={800} 
+                height={1200}
+                className="rounded-t-lg w-full h-auto"
+              />
+            </a>
+            <div className="p-4" onClick={() => track('ClickEntradasJoinnus')}>
+              <a 
+                href="https://www.joinnus.com/events/concerts/lima-maya-endo-en-concierto-julio-2025-70104" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="block w-full bg-[#05E4B5] hover:brightness-90 text-black font-bold py-3 px-4 rounded-lg transition-all duration-200 text-center"
+              >
+                Entradas en Joinnus
+              </a>
+            </div>
+            <button 
+              onClick={() => setShowPopup(false)} 
+              className="absolute -top-4 -right-4 bg-white text-black rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold"
+              aria-label="Cerrar"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 } 
