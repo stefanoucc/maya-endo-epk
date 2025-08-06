@@ -137,10 +137,10 @@ export default function MatchCalculatorPage() {
                 <>
                     <p className="text-xl text-gray-200">es evidente el mal tiempo y lugar:</p>
                     <div className="relative w-48 h-48 mx-auto mt-4 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-white/20 rounded-full animate-ping-slow"></div>
-                    <div className="relative w-40 h-40 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-4 border-white/50">
-                        <span className="text-6xl font-bold text-white">{Math.round(compatibility)}<span className="text-4xl">%</span></span>
-                    </div>
+                        <div className="absolute inset-0 bg-white/20 rounded-full animate-ping-slow"></div>
+                        <div className="relative w-40 h-40 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-4 border-white/50">
+                            <span className="text-6xl font-bold text-white">{Math.round(compatibility)}<span className="text-4xl">%</span></span>
+                        </div>
                     </div>
                     <div className="mt-8">
                         <p className="text-2xl font-bold text-white tracking-wider">&apos;Mala Suerte&apos;</p>
@@ -159,38 +159,6 @@ export default function MatchCalculatorPage() {
           </div>
         )}
       </div>
-      {showPopup && (
-        <div className="fixed inset-0 bg-black bg-opacity-75 flex justify-center items-center z-50 p-4">
-          <div className="relative bg-black rounded-lg shadow-xl max-w-md w-full">
-            <a href="https://www.joinnus.com/events/concerts/lima-maya-endo-en-concierto-julio-2025-70104" target="_blank" rel="noopener noreferrer">
-              <Image 
-                src="/IMG_4033.JPG" 
-                alt="Maya Endo en concierto" 
-                width={800} 
-                height={1200}
-                className="rounded-t-lg w-full h-auto"
-              />
-            </a>
-            <div className="p-4" onClick={() => track('ClickEntradasJoinnus')}>
-              <a 
-                href="https://www.joinnus.com/events/concerts/lima-maya-endo-en-concierto-julio-2025-70104" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block w-full bg-[#05E4B5] hover:brightness-90 text-black font-bold py-3 px-4 rounded-lg transition-all duration-200 text-center"
-              >
-                Entradas en Joinnus
-              </a>
-            </div>
-            <button 
-              onClick={() => setShowPopup(false)} 
-              className="absolute -top-4 -right-4 bg-white text-black rounded-full w-10 h-10 flex items-center justify-center text-2xl font-bold"
-              aria-label="Cerrar"
-            >
-              &times;
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 } 

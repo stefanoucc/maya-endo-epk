@@ -13,7 +13,7 @@ export default function Home({
 }) {
   // Only redirect if not coming from navbar (no 'from' parameter)
   if (!searchParams.from) {
-    redirect('/match-calculator');
+    redirect('/hastapronto');
   }
   
   // This code will run if accessed from navbar
