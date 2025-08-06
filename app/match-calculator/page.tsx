@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import { track } from '@vercel/analytics';
+// import { track } from '@vercel/analytics';
 
 export default function MatchCalculatorPage() {
-  const [showPopup, setShowPopup] = useState(true);
+  // const [showPopup, setShowPopup] = useState(true);
   const [name1, setName1] = useState('');
   const [name2, setName2] = useState('');
   const [compatibility, setCompatibility] = useState<number | null>(null);

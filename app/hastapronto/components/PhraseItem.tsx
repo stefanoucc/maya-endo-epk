@@ -95,7 +95,7 @@ export function PhraseItem({ id, phrase, droppedItem, onDrop, isMobile = false, 
           <>
             <div className="text-lg sm:text-2xl filter drop-shadow-sm">💭</div>
             <span className="text-xs text-gray-700 text-center leading-tight px-1 italic font-medium">
-              "{phrase}"
+              &ldquo;{phrase}&rdquo;
             </span>
           </>
         )}

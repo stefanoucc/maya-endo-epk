@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { X, Award, Star, Trophy, Music } from 'lucide-react';
+import { Award, Star, Trophy, Music } from 'lucide-react';
 
 interface ResultsPanelProps {
   isOpen: boolean;

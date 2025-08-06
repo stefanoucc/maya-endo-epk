@@ -25,7 +25,7 @@ export function DropZone({ id, phrase, droppedItem, onDrop }: DropZoneProps) {
       <div className="relative bg-gradient-to-r from-rose-50/80 to-amber-50/80 backdrop-blur-sm 
                       rounded-lg p-3 sm:p-4 border border-rose-200/30 shadow-sm">
         <p className="text-sm sm:text-base text-rose-800/80 font-serif italic text-center leading-relaxed">
-          "{phrase}"
+          &ldquo;{phrase}&rdquo;
         </p>
         
         {/* Etiqueta de equipaje decorativa */}

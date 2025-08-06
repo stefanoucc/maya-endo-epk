@@ -282,7 +282,7 @@ export default function HastaProntoPage() {
                       <div className="flex items-center justify-center space-x-2">
                         <span className="text-xl">{selectedObject.icon}</span>
                         <p className="text-sm text-blue-800 font-semibold">
-                          "{selectedObject.name}" seleccionado
+                          &ldquo;{selectedObject.name}&rdquo; seleccionado
                         </p>
                       </div>
                       <p className="text-xs text-blue-700 text-center mt-1">
