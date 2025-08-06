@@ -71,7 +71,7 @@ export function PhraseItem({ id, phrase, droppedItem, onDrop, isMobile = false, 
 
   return (
     <div
-      ref={!isMobile ? drop : undefined}
+      ref={!isMobile ? (drop as any) : undefined}
       onClick={handleClick}
       className={`
         relative bg-gradient-to-b ${getBackgroundColor()}
