@@ -38,7 +38,7 @@ export function DropZone({ id, phrase, droppedItem, onDrop }: DropZoneProps) {
 
       {/* Zona de drop */}
       <div
-        ref={drop as any}
+        ref={drop as React.Ref<HTMLDivElement>}
         className={`
           min-h-[100px] sm:min-h-[120px] border-2 border-dashed rounded-xl p-4 transition-all duration-300
           ${droppedItem 

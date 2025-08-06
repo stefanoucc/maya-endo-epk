@@ -29,7 +29,7 @@ export function GameObjectItem({ id, name, icon, isUsed, isMobile = false, isSel
 
   return (
     <div
-      ref={!isMobile ? (drag as any) : undefined}
+      ref={!isMobile ? (drag as React.Ref<HTMLDivElement>) : undefined}
       onClick={handleClick}
       className={`
         relative bg-gradient-to-b from-gray-100 to-gray-200 
