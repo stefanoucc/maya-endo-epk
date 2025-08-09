@@ -112,15 +112,7 @@ export default function App() {
              background: 'linear-gradient(to bottom, #4A90E2 0%, #7CB9E8 25%, #98D982 75%, #228B22 100%)'
            }}>
         
-        {/* Nubes estilo XP */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-8 left-16 w-24 h-12 bg-white rounded-full opacity-80 
-                          shadow-lg animate-pulse"></div>
-          <div className="absolute top-12 right-20 w-32 h-16 bg-white rounded-full opacity-70 
-                          shadow-lg animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-20 left-1/3 w-20 h-10 bg-white rounded-full opacity-75 
-                          shadow-lg animate-pulse" style={{ animationDelay: '2s' }}></div>
-        </div>
+
 
         {/* Contenedor principal estilo ventana XP */}
         <div className="relative z-10 min-h-screen p-2 sm:p-4">
@@ -228,10 +220,10 @@ export default function App() {
                 </div>
 
                 {/* Layout de dos columnas */}
-                <div className="grid grid-cols-2 gap-3 sm:gap-4">
+                <div className="grid grid-cols-2 gap-3 sm:gap-4 items-start md:items-stretch">
                   
                   {/* Columna izquierda - Objetos */}
-                  <div className="space-y-2">
+                  <div className="flex flex-col h-full space-y-2">
                     <div className="bg-gray-200 border-2 border-gray-400 p-2 text-center shadow-inner"
                          style={{
                            borderTopColor: '#808080',
@@ -242,7 +234,7 @@ export default function App() {
                       <h2 className="text-sm text-gray-800 font-semibold">objetos</h2>
                     </div>
                     
-                    <div className="bg-white border-2 border-gray-400 p-2 sm:p-3 shadow-inner space-y-2"
+                    <div className="bg-white border-2 border-gray-400 p-2 sm:p-3 shadow-inner flex-1 flex flex-col gap-2"
                          style={{
                            borderTopColor: '#808080',
                            borderLeftColor: '#808080',
@@ -250,7 +242,7 @@ export default function App() {
                            borderBottomColor: '#fff'
                          }}>
                       {gameObjects.map((obj) => (
-                        <div key={obj.id} className="scale-90 sm:scale-100">
+                        <div key={obj.id} className="flex-1 scale-90 sm:scale-100">
                           <GameObjectItem
                             id={obj.id}
                             name={obj.name}
@@ -263,7 +255,7 @@ export default function App() {
                   </div>
 
                   {/* Columna derecha - Frases */}
-                  <div className="space-y-2">
+                  <div className="flex flex-col h-full space-y-2">
                     <div className="bg-gray-200 border-2 border-gray-400 p-2 text-center shadow-inner"
                          style={{
                            borderTopColor: '#808080',
@@ -274,7 +266,7 @@ export default function App() {
                       <h2 className="text-sm text-gray-800 font-semibold">frases</h2>
                     </div>
                     
-                    <div className="bg-white border-2 border-gray-400 p-2 sm:p-3 shadow-inner space-y-2"
+                    <div className="bg-white border-2 border-gray-400 p-2 sm:p-3 shadow-inner flex-1 flex flex-col gap-2"
                          style={{
                            borderTopColor: '#808080',
                            borderLeftColor: '#808080',
@@ -282,7 +274,7 @@ export default function App() {
                            borderBottomColor: '#fff'
                          }}>
                       {mysteriousPhrases.map((phrase, index) => (
-                        <div key={`zone-${index + 1}`} className="scale-90 sm:scale-100">
+                        <div key={`zone-${index + 1}`} className="flex-1 scale-90 sm:scale-100">
                           <PhraseItem
                             id={`zone-${index + 1}`}
                             phrase={phrase}

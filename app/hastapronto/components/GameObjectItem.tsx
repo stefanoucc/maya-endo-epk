@@ -34,7 +34,7 @@ export function GameObjectItem({ id, name, icon, isUsed, isMobile = false, isSel
       className={`
         relative bg-gradient-to-b from-gray-100 to-gray-200 
         border-2 border-gray-400 shadow-lg transition-all duration-200
-        min-h-[60px] sm:min-h-[70px] p-2
+        min-h-[60px] sm:min-h-[70px] h-full p-2
         ${isUsed 
           ? 'opacity-40 cursor-not-allowed' 
           : isSelected

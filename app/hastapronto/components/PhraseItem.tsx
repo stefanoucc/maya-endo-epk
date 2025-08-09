@@ -76,14 +76,25 @@ export function PhraseItem({ id, phrase, droppedItem, onDrop, isMobile = false, 
       className={`
         relative bg-gradient-to-b ${getBackgroundColor()}
         border-2 border-gray-400 shadow-lg transition-all duration-200
-        min-h-[60px] sm:min-h-[70px] p-2
+        min-h-[60px] sm:min-h-[70px] h-full p-2
         ${isOver && canDrop ? 'shadow-xl scale-105' : ''}
         ${!canDrop && isOver ? 'shadow-inner' : ''}
         ${isMobile && hasSelectedObject && !droppedItem ? 'cursor-pointer hover:shadow-xl hover:scale-105' : ''}
       `}
       style={getBorderColors()}
     >
-      <div className="flex flex-col items-center justify-center space-y-1 h-full">
+      {/* Botón para móvil cuando hay objeto seleccionado - en la parte superior */}
+      {isMobile && hasSelectedObject && !droppedItem && (
+        <div className="absolute top-0 left-0 right-0 bg-blue-500 border-b border-blue-700 flex items-center justify-center py-1">
+          <span className="text-white text-xs font-semibold">
+            👆 Toca para conectar
+          </span>
+        </div>
+      )}
+
+      <div className={`flex flex-col items-center justify-center space-y-1 h-full ${
+        isMobile && hasSelectedObject && !droppedItem ? 'pt-6' : ''
+      }`}>
         {droppedItem ? (
           <>
             <div className="text-2xl sm:text-3xl filter drop-shadow-sm">{droppedItem.icon}</div>
@@ -136,14 +147,7 @@ export function PhraseItem({ id, phrase, droppedItem, onDrop, isMobile = false, 
         </div>
       )}
       
-      {/* Indicador para móvil cuando hay objeto seleccionado */}
-      {isMobile && hasSelectedObject && !droppedItem && (
-        <div className="absolute inset-0 bg-blue-300/20 border border-blue-400 flex items-center justify-center">
-          <span className="text-blue-800 text-xs font-semibold bg-white px-2 py-1 border border-blue-400 shadow">
-            👆 Toca para conectar
-          </span>
-        </div>
-      )}
+
     </div>
   );
 }
