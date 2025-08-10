@@ -98,14 +98,14 @@ export function PhraseItem({ id, phrase, droppedItem, onDrop, isMobile = false, 
         {droppedItem ? (
           <>
             <div className="text-2xl sm:text-3xl filter drop-shadow-sm">{droppedItem.icon}</div>
-            <span className="text-xs text-green-800 text-center leading-tight px-1 font-medium">
+            <span className="text-xs text-green-800 text-center leading-tight px-1 font-bold">
               {droppedItem.name}
             </span>
           </>
         ) : (
           <>
             <div className="text-lg sm:text-2xl filter drop-shadow-sm">💭</div>
-            <span className="text-xs text-gray-700 text-center leading-tight px-1 italic font-medium">
+            <span className="text-xs text-gray-700 text-center leading-tight px-1 italic font-bold">
               &ldquo;{phrase}&rdquo;
             </span>
           </>

@@ -55,7 +55,7 @@ export function GameObjectItem({ id, name, icon, isUsed, isMobile = false, isSel
     >
       <div className="flex flex-col items-center justify-center space-y-1 h-full">
         <div className="text-2xl sm:text-3xl filter drop-shadow-sm">{icon}</div>
-        <span className="text-xs text-gray-800 text-center leading-tight px-1 font-medium">
+        <span className="text-xs text-gray-800 text-center leading-tight px-1 font-bold">
           {name}
         </span>
       </div>

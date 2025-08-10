@@ -17,7 +17,7 @@ const isTouchDevice = () => {
 
 // Objetos del juego
 const gameObjects = [
-  { id: '1', name: 'Cámara polaroid', icon: '📸(🍷☕)' },
+  { id: '1', name: 'Cámara polaroid', icon: '📸🍷☕' },
   { id: '2', name: 'Corazón de lana', icon: '💗🧶' },
   { id: '3', name: 'Cartel de interrogatorio', icon: '🪧❓' },
   { id: '4', name: 'Espejo roto', icon: '🪞💔' },
@@ -168,7 +168,7 @@ export default function HastaProntoPage() {
                 <div className="flex items-center space-x-2">
                   <Gamepad2 className="text-white" size={16} />
                   <h1 className="text-white text-sm font-semibold">
-                    ¿qué objeto representa cada canción?
+                    ¿qué objeto representa cada canción? adivina...
                   </h1>
                 </div>
                 <div className="flex space-x-1">
@@ -215,10 +215,14 @@ export default function HastaProntoPage() {
                     {/* Descripción del juego */}
                     <div className="flex justify-center items-center space-x-2 mb-3">
                       <Music className="text-blue-600" size={20} />
-                      <p className="text-sm text-gray-800">
+                      <p className="text-sm text-gray-800 text-center">
                         {isMobile 
                           ? "Toca un objeto y luego la frase correspondiente" 
-                          : "Arrastra cada objeto hacia la frase correspondiente"
+                          : (
+                              <>
+                                Arrastra cada objeto de la maleta de Maya hacia la frase correspondiente.<br />
+                              </>
+                            )
                         }
                       </p>
                       <Music className="text-blue-600" size={20} />
