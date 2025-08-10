@@ -278,7 +278,7 @@ export function ResultsPanel({ isOpen, onClose, score, totalQuestions, correctAn
                  }}>
               <div className="text-sm text-blue-800 font-medium">
                 <p className="mb-3">
-                  gracias por jugar. "TODO ESO QUE SOÑÉ", mi LP debut, sale pronto... y muero de ganas de que lo escuches.
+                  gracias por jugar. &ldquo;TODO ESO QUE SOÑÉ&rdquo;, mi LP debut, sale pronto... y muero de ganas de que lo escuches.
                 </p>
                 <p className="text-right">
                   mucho amor,<br />
