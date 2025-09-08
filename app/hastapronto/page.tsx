@@ -7,7 +7,7 @@ import { TouchBackend } from 'react-dnd-touch-backend';
 import { GameObjectItem } from './components/GameObjectItem';
 import { PhraseItem } from './components/PhraseItem';
 import { ResultsPanel } from './components/ResultsPanel';
-import { Eye, Music, Gamepad2 } from 'lucide-react';
+import { Eye, Music, Gamepad2, X } from 'lucide-react';
 
 // Detectar si es dispositivo táctil (se ejecutará en useEffect)
 const isTouchDevice = () => {
@@ -65,6 +65,8 @@ export default function HastaProntoPage() {
   const [showResults, setShowResults] = useState(false);
   const [selectedObject, setSelectedObject] = useState<{ id: string; name: string; icon: string } | null>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupContent, setPopupContent] = useState<{ title?: string; description?: string; image?: string; message?: string } | null>(null);
 
   // Detectar si es móvil y actualizar estado
   useEffect(() => {
@@ -136,6 +138,51 @@ export default function HastaProntoPage() {
   const getUsedObjectIds = () => {
     return Object.values(droppedItems).map(item => item.id);
   };
+
+  // Popup handling functions
+  const openPopup = (content: { title?: string; description?: string; image?: string; message?: string }) => {
+    setPopupContent(content);
+    setShowPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowPopup(false);
+    setPopupContent(null);
+    document.body.style.overflow = 'auto';
+  };
+
+  const confirmPopup = () => {
+    setShowPopup(false);
+    setPopupContent(null);
+    document.body.style.overflow = 'auto';
+  };
+
+  // Concert announcement popup
+  const showConcertAnnouncement = () => {
+    openPopup({
+
+      image: "/conciertosalaosma.jpg",
+    });
+  };
+
+  // Handle body overflow when popup is shown
+  useEffect(() => {
+    if (showPopup) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => { document.body.style.overflow = 'auto'; };
+  }, [showPopup]);
+
+  // Show concert popup automatically on page load
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      showConcertAnnouncement();
+    }, 1000); // Show after 1 second delay
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const { score, correctAnswersList } = calculateResults();
   const totalQuestions = 11;
@@ -396,6 +443,73 @@ export default function HastaProntoPage() {
           totalQuestions={totalQuestions}
           correctAnswers={correctAnswersList}
         />
+
+        {/* Popup Modal */}
+        {showPopup && popupContent && (
+          <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closePopup}>
+            <div 
+              className="bg-[#F7F1E9] rounded-xl max-w-lg w-full p-5 pt-6 shadow-xl relative animate-scale-in border border-black/10"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button 
+                onClick={closePopup}
+                className="absolute top-2 right-2 z-10 text-[#5A4B41] hover:text-black bg-transparent hover:bg-[#4A3B31]/10 rounded-full p-1.5 transition-colors"
+                aria-label="Cerrar"
+              >
+                <X size={22} />
+              </button>
+              
+              <div className="text-center">
+                {popupContent.image && (
+                  <div className="relative w-full aspect-[4/5] mx-auto mb-4 rounded-lg overflow-hidden shadow-md"> 
+                    <a 
+                      href="https://www.joinnus.com/events/concerts/lima-maya-endo-presenta-todo-eso-que-sone-71421"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cursor-pointer"
+                    >
+                      <img
+                        src={popupContent.image}
+                        alt={popupContent.title || 'Concert Announcement'}
+                        className="w-full h-full object-cover"
+                      />
+                    </a>
+                  </div>
+                )}
+                
+                {popupContent.title && (
+                  <h2 className="text-lg md:text-xl text-[#4A3B31] font-semibold mb-1">
+                    {popupContent.title}
+                  </h2>
+                )}
+                
+                {popupContent.description && (
+                  <p className="text-black/70 text-sm md:text-base mb-3 px-1">
+                    {popupContent.description}
+                  </p>
+                )}
+
+                {popupContent.message && (
+                  <p className="text-black/70 text-sm md:text-base mb-5 px-1">
+                    {popupContent.message}
+                  </p>
+                )}
+                
+                <div className="flex justify-center">
+                  <a 
+                    href="https://www.joinnus.com/events/concerts/lima-maya-endo-presenta-todo-eso-que-sone-71421"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={confirmPopup}
+                    className="bg-[#00E5B5] text-black hover:bg-black hover:text-white active:bg-[#111111] font-semibold py-2 px-10 rounded-full transition-colors duration-200 text-md md:text-lg shadow-md hover:shadow-lg inline-block"
+                  >
+                    comprar en joinnus
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </DndProvider>
   );
