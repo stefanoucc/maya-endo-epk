@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Raleway, Instrument_Serif } from 'next/font/google'
+import { Raleway } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
 import "./globals.css"
 import dynamic from "next/dynamic"
@@ -23,10 +23,14 @@ const NavMenu = dynamic(() => import("@/components/NavMenu"), {
 
 const raleway = Raleway({ subsets: ["latin"] })
 
-const instrumentSerif = Instrument_Serif({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-instrument'
+const instrumentSerif = localFont({
+  src: [
+    {
+      path: '../public/fonts/InstrumentSerif-Regular.ttf',
+      style: 'normal',
+    }
+  ],
+  variable: '--font-instrument',
 })
 
 export const metadata: Metadata = {
