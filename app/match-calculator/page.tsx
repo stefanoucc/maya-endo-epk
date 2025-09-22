@@ -45,22 +45,20 @@ export default function MatchCalculatorPage() {
     calculateCompatibility();
   };
   
-  const bgImage = compatibility !== null && compatibility <= 50 ? "/quiz3/momento2.jpg" : "/quiz3/momento1.jpg";
-  const logoSrc = compatibility !== null && compatibility <= 50 ? "/LOGO darkmode.png" : "/NUEVO LOGO.png";
+  const logoSrc = "/images/malasuerte.png";
   const logoClassName = `w-full h-auto object-contain`;
 
   return (
     <div 
-      className="min-h-screen bg-cover bg-center font-satoshi transition-all duration-1000"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className="min-h-screen bg-[#1a1b24] font-satoshi transition-all duration-1000"
     >
-      <div className="min-h-screen bg-black/60 flex flex-col items-center justify-center p-4 md:p-8 pt-10 md:pt-12 relative z-10">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 pt-10 md:pt-12 relative z-10">
         <div className="w-full max-w-[120px] mb-4 md:mb-6">
           <Image 
             src={logoSrc}
             alt="Maya Endo Logo"
-            width={200} 
-            height={200}
+            width={150} 
+            height={250}
             className={logoClassName}
             priority
           />

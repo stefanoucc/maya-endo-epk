@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { X, RotateCcw, Download, Share2 } from "lucide-react";
+import { X, RotateCcw, Download, Share2, Music } from "lucide-react";
 
 // Define view options
 const viewOptions = [
@@ -161,7 +161,7 @@ export default function Quiz2Page() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F0E8DE] flex flex-col items-center p-4 md:p-8 pt-10 md:pt-12">
+    <div className="min-h-screen bg-[#cdd5f2] flex flex-col items-center p-4 md:p-8 pt-10 md:pt-12">
       <div className="w-full max-w-[120px] mb-4 md:mb-6">
         <Image 
           src="/NUEVO LOGO.png"
@@ -173,11 +173,11 @@ export default function Quiz2Page() {
         />
       </div>
       
-      <h1 className="text-2xl md:text-3xl text-[#4A3B31] font-semibold mb-1 text-center fade-in-1 font-satoshi">
+      <h1 className="text-2xl md:text-3xl text-[#3F4761] font-semibold mb-1 text-center fade-in-1 font-satoshi">
         {heading.main}
       </h1>
       {heading.sub && (
-         <p className="text-md md:text-lg text-[#6A5A50] mb-6 md:mb-8 text-center fade-in-1 font-satoshi">
+         <p className="text-md md:text-lg text-[#4A516B] mb-6 md:mb-8 text-center fade-in-1 font-satoshi">
           {heading.sub}
         </p>
       )}
@@ -241,6 +241,15 @@ export default function Quiz2Page() {
               <Share2 size={18} className="mr-2" />
               compartir
             </button>
+            <a 
+              href="https://ditto.fm/pequeno-mundo-entre-2" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 text-black font-satoshi font-medium py-2.5 px-6 rounded-full transition-colors duration-200 flex items-center justify-center text-md shadow-md hover:shadow-lg"
+            >
+              <Music size={18} className="mr-2" />
+              escucha
+            </a>
           </div>
           <p className="text-center text-sm text-black/60 mt-5 font-satoshi">
             compártelo con alguien especial
@@ -251,12 +260,12 @@ export default function Quiz2Page() {
       {showPopup && popupContent && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closePopupAndResetSelection}>
           <div 
-            className="bg-[#F7F1E9] rounded-xl max-w-sm w-full p-5 pt-6 shadow-xl relative animate-scale-in border border-black/10"
+            className="bg-[#cdd5f2] rounded-xl max-w-sm w-full p-5 pt-6 shadow-xl relative animate-scale-in border border-black/10"
             onClick={(e) => e.stopPropagation()}
           >
             <button 
               onClick={closePopupAndResetSelection}
-              className="absolute top-2.5 right-2.5 text-[#5A4B41] hover:text-black bg-transparent hover:bg-[#4A3B31]/10 rounded-full p-1.5 transition-colors"
+              className="absolute top-2.5 right-2.5 z-10 text-[#5A4B41] hover:text-black bg-transparent hover:bg-[#4A3B31]/10 rounded-full p-1.5 transition-colors"
               aria-label="Cerrar"
             >
               <X size={22} />
@@ -273,7 +282,7 @@ export default function Quiz2Page() {
                 />
               </div>
               
-              <h2 className="text-lg md:text-xl text-[#4A3B31] font-satoshi font-semibold mb-1">
+              <h2 className="text-lg md:text-xl text-[#3F4761] font-satoshi font-semibold mb-1">
                 {popupContent.title}
               </h2>
               
@@ -286,7 +295,7 @@ export default function Quiz2Page() {
               <div className="flex justify-center">
                 <button 
                   onClick={confirmSelection}
-                  className="bg-[#7E6C5F] hover:bg-[#6A5A50] active:bg-[#584B43] text-white font-satoshi font-semibold py-2 px-10 rounded-full transition-colors duration-200 text-md md:text-lg shadow-md hover:shadow-lg"
+                  className="bg-[#5A638C] hover:bg-[#4A516B] active:bg-[#3F4761] text-white font-satoshi font-semibold py-2 px-10 rounded-full transition-colors duration-200 text-md md:text-lg shadow-md hover:shadow-lg"
                 >
                   confirmar
                 </button>
@@ -309,7 +318,7 @@ interface ItemProps {
 function SelectableItemImage({ item, onClick, isSelected }: { item: ItemProps; onClick: () => void; isSelected: boolean }) {
   return (
     <div 
-      className={`relative aspect-square w-full mx-auto overflow-hidden rounded-xl transition-all duration-300 cursor-pointer group shadow-lg hover:shadow-xl focus-within:ring-4 focus-within:ring-[#7E6C5F]/70 ${isSelected ? 'ring-4 ring-[#7E6C5F] scale-105' : 'ring-2 ring-transparent hover:ring-stone-400/50'}`}
+      className={`relative aspect-square w-full mx-auto overflow-hidden rounded-xl transition-all duration-300 cursor-pointer group shadow-lg hover:shadow-xl focus-within:ring-4 focus-within:ring-[#5A638C]/70 ${isSelected ? 'ring-4 ring-[#5A638C] scale-105' : 'ring-2 ring-transparent hover:ring-stone-400/50'}`}
       onClick={onClick}
       title={item.name}
       tabIndex={0}
@@ -329,7 +338,7 @@ function SelectableItemImage({ item, onClick, isSelected }: { item: ItemProps; o
         </span>
       </div>
       {isSelected && (
-        <div className="absolute inset-0 rounded-xl ring-4 ring-[#7E6C5F] ring-offset-2 ring-offset-[#F0E8DE]"></div>
+        <div className="absolute inset-0 rounded-xl ring-4 ring-[#5A638C] ring-offset-2 ring-offset-[#cdd5f2]"></div>
       )}
     </div>
   );

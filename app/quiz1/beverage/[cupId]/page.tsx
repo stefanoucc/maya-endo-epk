@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, X } from "lucide-react";
+import { ArrowLeft, X, Music } from "lucide-react";
 
 // Cup images
 const cupImages = [
@@ -35,7 +35,7 @@ const beverageOptions = [
     name: "",
     image: "/quiz1/vinotintov2.png",
     popupImage: "/quiz1/vino en taza gif 2.gif",
-    message: "si solo queda vino, brindemos.\n\n\"vino en taza\"\n\nprimer single del álbum.\n\nestreno en mayo de 2025."
+    message: "si solo queda vino, brindemos.\n\n\"vino en taza\"\n\nprimer single del álbum."
   },
 ];
 
@@ -186,12 +186,26 @@ export default function BeverageSelectionPage({ params }: { params: { cupId: str
               
               <p className="text-[#A6050D] text-xl font-satoshi mt-0 mb-6 whitespace-pre-line">{popupMessage}</p>
               
-              <button 
-                onClick={closePopup}
-                className="bg-[#A6050D] hover:bg-[#8A0000] text-white font-satoshi font-medium py-2 px-8 rounded-full transition-colors duration-200"
-              >
-                elegir otra bebida
-              </button>
+              <div className="flex justify-center">
+                {selectedBeverage === "vinotinto" ? (
+                  <a 
+                    href="https://ditto.fm/vino-en-taza"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600 text-black font-satoshi font-medium py-2 px-8 rounded-full transition-colors duration-200 flex items-center justify-center w-fit mx-auto"
+                  >
+                    <Music size={18} className="mr-2" />
+                    escucha la canción
+                  </a>
+                ) : (
+                  <button 
+                    onClick={closePopup}
+                    className="bg-[#A6050D] hover:bg-[#8A0000] text-white font-satoshi font-medium py-2 px-8 rounded-full transition-colors duration-200"
+                  >
+                    elegir otra bebida
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>

@@ -6,11 +6,11 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const navigationLinks = [
-  { href: "/?from=navbar", label: "Home", logo: "/LOGO darkmode.png" },
-  { href: "/quiz1", label: "Quiz 1", logo: "/LOGO darkmode.png" },
-  { href: "/quiz2", label: "Quiz 2", logo: "/LOGO darkmode.png" },
-  { href: "/match-calculator", label: "Match Calculator", logo: "/LOGO darkmode.png" },
-  { href: "/hastapronto", label: "Hasta Pronto", logo: "/LOGO darkmode.png" },
+  { href: "/?from=navbar", label: "Home", logo: "/NUEVO LOGO.png" },
+  { href: "/quiz1", label: "Quiz 1", logo: "/NUEVO LOGO.png" },
+  { href: "/quiz2", label: "Quiz 2", logo: "/NUEVO LOGO.png" },
+  { href: "/match-calculator", label: "Match Calculator", logo: "/NUEVO LOGO.png" },
+  { href: "/hastapronto", label: "Hasta Pronto", logo: "/NUEVO LOGO.png" },
 ];
 
 export function MenuButton({ onClick }: { onClick: () => void }) {
@@ -122,7 +122,7 @@ export default function NavMenu() {
                   >
                     <div className="relative w-48 h-16 md:w-56 md:h-18">
                       <Image
-                        src={activeLink === link.href ? "/LOGO darkmode.png" : "/logo_silueta.png"}
+                        src={activeLink === link.href ? "/NUEVO LOGO.png" : "/logo_silueta.png"}
                         alt={link.label}
                         fill
                         className="object-contain"
