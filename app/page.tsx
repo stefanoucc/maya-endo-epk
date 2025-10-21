@@ -71,7 +71,7 @@ export default function Home() {
                   priority
                 />
                 <a
-                  href="https://ditto.fm/mi-soledad-maya-endo" 
+                  href="https://ditto.fm/fotosintesis-maya-endo" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 bg-transparent text-white border-2 border-white py-2 px-6 rounded-full font-semibold hover:bg-white/10 transition-colors text-sm"
@@ -165,6 +165,17 @@ export default function Home() {
               height={32}
               className="object-contain"
             />
+          </a>
+        </div>
+        
+        <div className="mt-4 mb-4 fade-in-3 flex justify-center">
+          <a
+            href="https://open.spotify.com/prerelease/4ytx3xGGExP7SeT2WosqFi?si=c80e0cf450c34c78" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-transparent text-white border-2 border-white py-2 px-6 rounded-full font-semibold hover:bg-white/10 transition-colors text-sm"
+          >
+            mi álbum en spotify
           </a>
         </div>
         
