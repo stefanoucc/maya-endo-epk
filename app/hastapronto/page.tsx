@@ -137,16 +137,6 @@ export default function HastaProntoPage() {
     return Object.values(droppedItems).map(item => item.id);
   };
 
-  // Handle body overflow when popup is shown
-  useEffect(() => {
-    // This useEffect is no longer needed as popup is removed
-  }, []);
-
-  // Show concert popup automatically on page load
-  useEffect(() => {
-    // This useEffect is no longer needed as popup is removed
-  }, []);
-
   const { score, correctAnswersList } = calculateResults();
   const totalQuestions = 11;
 
