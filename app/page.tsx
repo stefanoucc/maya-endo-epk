@@ -39,7 +39,7 @@ export default function Home() {
     }
     return () => { document.body.style.overflow = 'auto'; };
   }, [showPopup]);
-
+  /*
   useEffect(() => {
     const timer = setTimeout(() => {
       openPopup({
@@ -49,7 +49,7 @@ export default function Home() {
 
     return () => clearTimeout(timer);
   }, []);
-
+  */
   
   // This code will run if accessed from navbar
   return (
@@ -183,8 +183,8 @@ export default function Home() {
           <HangmanGame />
         </div>
       </div>
-
-      {/* Popup Modal */}
+      {/*
+      {/ * Popup Modal * /}
       {showPopup && popupContent && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closePopup}>
           <div 
@@ -197,7 +197,7 @@ export default function Home() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Barra de título estilo XP */}
+            {/ * Barra de título estilo XP * /}
             <div className="bg-gradient-to-r from-blue-500 to-blue-700 px-3 py-2 border-b border-gray-400 flex items-center justify-between">
               <div className="flex items-center space-x-2">
                 <Gamepad2 className="text-white" size={16} />
@@ -216,7 +216,7 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Contenido de la ventana */}
+            {/ * Contenido de la ventana * /}
             <div className="p-4 bg-gray-100">
               
               <div className="text-center">
@@ -273,6 +273,7 @@ export default function Home() {
           </div>
         </div>
       )}
+      */}
     </div>
   )
 }
