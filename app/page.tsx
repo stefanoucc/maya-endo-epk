@@ -3,14 +3,15 @@
 import Image from "next/image"
 import dynamic from "next/dynamic"
 
-import { useState, useEffect } from 'react';
-import { Gamepad2, Ticket } from 'lucide-react';
+// import { useState, useEffect } from 'react';
+// import { Gamepad2, Ticket } from 'lucide-react';
 
 const HangmanGame = dynamic(() => import("@/components/HangmanGame"), {
   ssr: false
 })
 
 export default function Home() {
+  /*
   const [showPopup, setShowPopup] = useState(false);
   const [popupContent, setPopupContent] = useState<{ title?: string; description?: string; image?: string; message?: string } | null>(null);
 
@@ -39,6 +40,7 @@ export default function Home() {
     }
     return () => { document.body.style.overflow = 'auto'; };
   }, [showPopup]);
+  */
   /*
   useEffect(() => {
     const timer = setTimeout(() => {
