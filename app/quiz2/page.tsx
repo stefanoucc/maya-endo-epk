@@ -161,7 +161,7 @@ export default function Quiz2Page() {
   };
 
   return (
-    <div className="min-h-screen bg-[#cdd5f2] flex flex-col items-center p-4 md:p-8 pt-10 md:pt-12">
+    <div className="min-h-screen bg-white flex flex-col items-center p-4 md:p-8 pt-10 md:pt-12">
       <div className="w-full max-w-[120px] mb-4 md:mb-6">
         <Image 
           src="/NUEVO LOGO.png"

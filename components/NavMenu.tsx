@@ -17,10 +17,16 @@ export function MenuButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed top-4 left-4 z-50 p-2.5 md:p-3 bg-black/70 backdrop-blur-sm rounded-full transition-all duration-300 hover:bg-black/90 touch-manipulation shadow-md"
+      className="fixed top-4 left-4 z-50 p-2.5 md:p-3 bg-black/70 backdrop-blur-sm rounded-full transition-all duration-300 hover:bg-black/90 touch-manipulation shadow-md flex items-center justify-center"
       aria-label="Open menu"
     >
-      <Menu className="w-5 h-5 md:w-6 md:h-6 text-amber-100" />
+      <Image
+        src="/maya-endo-logo.png"
+        alt="Maya Endo Logo"
+        width={20}
+        height={20}
+        className="w-5 h-5 md:w-6 md:h-6 object-contain"
+      />
     </button>
   );
 }

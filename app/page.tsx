@@ -1,64 +1,142 @@
 "use client";
 
-import Image from "next/image"
-import dynamic from "next/dynamic"
+import Image from "next/image";
+import { useEffect, useRef, useState } from 'react';
 
-import { useState, useEffect } from 'react';
-import { Gamepad2, Ticket } from 'lucide-react';
+const PLAYLIST_ID = 'PLOXBHoY1Vs6CvgltclV1S0gFWlQZd-u-y';
 
-const HangmanGame = dynamic(() => import("@/components/HangmanGame"), {
-  ssr: false
-})
+interface PlaylistVideo {
+  id: string;
+  title: string;
+  thumbnail?: string;
+}
 
 export default function Home() {
-  const [showPopup, setShowPopup] = useState(false);
-  const [popupContent, setPopupContent] = useState<{ title?: string; description?: string; image?: string; message?: string } | null>(null);
-
-  const openPopup = (content: { title?: string; description?: string; image?: string; message?: string }) => {
-    setPopupContent(content);
-    setShowPopup(true);
-  };
-
-  const closePopup = () => {
-    setShowPopup(false);
-    setPopupContent(null);
-    document.body.style.overflow = 'auto';
-  };
-
-  const confirmPopup = () => {
-    setShowPopup(false);
-    setPopupContent(null);
-    document.body.style.overflow = 'auto';
-  };
-
-  useEffect(() => {
-    if (showPopup) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-    return () => { document.body.style.overflow = 'auto'; };
-  }, [showPopup]);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const silhouetteRef = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+  const [heroHeight, setHeroHeight] = useState(1000);
+  const [isMobile, setIsMobile] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState('F_QXezs3Ue8');
+  const [playlistVideos, setPlaylistVideos] = useState<PlaylistVideo[]>([
+    { id: 'F_QXezs3Ue8', title: 'Video 1' },
+    { id: 'dmdaKFtTo2k', title: 'Video 2' },
+    { id: 'V_hpYm-jOrM', title: 'Video 3' },
+    { id: 'Ke-SxHgeyz0', title: 'Video 4' },
+    { id: 'HY6QKSUxfyk', title: 'Video 5' },
+    { id: 'V_6Ld4a52Xg', title: 'Video 6' },
+    { id: 'PeMeuHAfvrM', title: 'Video 7' },
+    { id: 'N4GN4Kwbxpk', title: 'Video 8' },
+    { id: 'ikgjjN5XDhU', title: 'Video 9' },
+    { id: 'VEbASncLgRk', title: 'Video 10' },
+    { id: 'B-xVmwya_J8', title: 'Video 11' },
+    { id: 'GRp-H46xZIM', title: 'Video 12' },
+  ]);
+  const [loadingVideos, setLoadingVideos] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      openPopup({
-        image: "/conciertosalaosma.jpg",
-      });
-    }, 1000); // Show after 1 second delay
+    // Videos are now manually defined in the playlistVideos state
 
-    return () => clearTimeout(timer);
+    // Set initial hero height and check if mobile
+    const updateHeroHeight = () => {
+      setHeroHeight(window.innerHeight);
+      setIsMobile(window.innerWidth < 768); // md breakpoint is 768px
+    };
+    updateHeroHeight();
+    window.addEventListener('resize', updateHeroHeight);
+
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', updateHeroHeight);
+    };
   }, []);
 
-  
-  // This code will run if accessed from navbar
+  // Calculate transform based on scroll position
+  // The silhouette moves up as we scroll through the hero section (100vh)
+  const scrollProgress = Math.min(scrollY / heroHeight, 1);
+  // Move silhouette upward and eventually out of viewport
+  // At scrollProgress = 1, it should be completely above viewport
+  const translateY = -scrollProgress * (heroHeight * 1.2); // Extra 20% to ensure it leaves viewport
+
   return (
-    <div 
-      className="min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: 'url(/images/clouds.jpg)' }}
-    >
-      <div className="flex flex-col items-center bg-black/20 min-h-screen">
-        <div className="w-full fade-in-1">
+    <>
+      {/* Fixed Sky Background - Above layout overlay */}
+      <div 
+        className="fixed inset-0 w-full h-full"
+        style={{
+          backgroundImage: `url('/TEQS%20CIELO.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+          zIndex: 1,
+          pointerEvents: 'none',
+        }}
+      />
+      
+      <div className="relative" style={{ position: 'relative', zIndex: 2 }}>
+        {/* Hero Section */}
+        <section
+          ref={heroRef}
+          className="relative h-screen w-full overflow-hidden"
+          style={{
+            position: 'relative',
+            backgroundColor: 'transparent',
+          }}
+        >
+        
+        {/* Silhouette Image */}
+        <div
+          ref={silhouetteRef}
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          style={{
+            transform: `translateY(${translateY}px)`,
+            willChange: 'transform',
+            zIndex: 2,
+          }}
+        >
+          <div 
+            className="relative w-full max-w-[90vw]"
+            style={{ 
+              height: isMobile ? '131.25vh' : '87.5vh' // 50% bigger on mobile
+            }}
+          >
+            <Image
+              src="/TEQS MAYA.png"
+              alt="Maya Endo - Todo Eso Que Soñé"
+              fill
+              className="object-contain"
+              priority
+              unoptimized
+              sizes="90vw"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Maya Endo Text - Small, to the right of menu icon */}
+      <div className="fixed top-4 left-20 z-50 flex items-center justify-center" style={{ 
+        height: '2.5rem',
+        paddingTop: '0.625rem',
+        paddingBottom: '0.625rem',
+        lineHeight: '1'
+      }}>
+        <h1 className="text-[1.25rem] md:text-[1.5rem] font-normal text-white font-instrument uppercase" style={{ lineHeight: '1' }}>
+          MAYA ENDO
+        </h1>
+      </div>
+
+      {/* Second Section - Original Home Elements */}
+      <section className="relative min-h-screen py-20 px-4" style={{ zIndex: 1, backgroundColor: 'transparent' }}>
+        <div className="flex flex-col items-center">
+          {/* Logo and Album Button */}
+          <div className="w-full mb-8">
           <div className="container mx-auto px-4">
             <div className="flex h-48 items-center justify-center">
               <div className="flex flex-col items-center">
@@ -71,31 +149,92 @@ export default function Home() {
                   priority
                 />
                 <a
-                  href="https://ditto.fm/fotosintesis-maya-endo" 
+                    href="https://share.amuse.io/album/maya-endo-todo-eso-que-sone?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAZXh0bgNhZW0CMTEAc3J0YwZhcHBfaWQMMjU2MjgxMDQwNTU4AAGna4SylTXjN776trFzgyCLGhw5hd1UuJb2VHrq5FMO6b5XGgynm4nrOMKpiyk_aem_FFNszL4UdnvuTai20RggNw&brid=PoF0tHRc4B3iBD9Dcr43pQ" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-4 bg-transparent text-white border-2 border-white py-2 px-6 rounded-full font-semibold hover:bg-white/10 transition-colors text-sm"
                 >
-                  𝄢 escucha mi último single 𝄞
+                    𝄢 escucha mi álbum debut 𝄞
                 </a>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Todo Eso Que Soñé Title */}
+          <div className="w-full max-w-4xl mb-6">
+            <h2 className="text-4xl md:text-6xl font-normal text-white mb-6 text-center font-instrument uppercase">
+              TODO ESO QUE SOÑÉ
+            </h2>
         </div>
 
-        <div className="fade-in-2 w-full max-w-4xl aspect-video">
+          {/* Video Player */}
+          <div className="w-full max-w-4xl mb-8">
+            <div className="aspect-video mb-4">
           <iframe
             className="w-full h-full"
-            src="https://www.youtube.com/embed/t6g2RolS9WM?autoplay=1&mute=1&rel=0&playsinline=1"
-            title="Maya Endo - Teaser"
+                src={`https://www.youtube.com/embed/${selectedVideoId}?list=${PLAYLIST_ID}&autoplay=1&mute=1&rel=0&playsinline=1`}
+                title="Maya Endo - Playlist"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
+                key={selectedVideoId}
           />
         </div>
         
-        <div className="mt-6 mb-4 fade-in-3 flex gap-6 items-center">
+            {/* Video Options */}
+            <div className="mt-4">
+              <div className="mb-3 flex justify-center">
+                <a
+                  href="https://www.youtube.com/watch?v=F_QXezs3Ue8&list=PLOXBHoY1Vs6CvgltclV1S0gFWlQZd-u-y&pp=gAQB"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-transparent text-white border-2 border-white py-2 px-6 rounded-full font-semibold hover:bg-white/10 transition-colors text-sm"
+                >
+                  ˙✧˖° mira la película ☆∘⁠˚⁠˳⁠°
+                </a>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                {playlistVideos.map((video) => (
+                  <button
+                    key={video.id}
+                    onClick={() => setSelectedVideoId(video.id)}
+                    className={`relative aspect-video rounded-lg overflow-hidden transition-all duration-200 ${
+                      selectedVideoId === video.id
+                        ? 'ring-4 ring-white scale-105'
+                        : 'opacity-70 hover:opacity-100 hover:scale-105'
+                    }`}
+                  >
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={video.thumbnail || `https://img.youtube.com/vi/${video.id}/mqdefault.jpg`}
+                        alt={video.title}
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-black/30 flex items-center justify-center">
+                      <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
+                        <svg className="w-6 h-6 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M8 5v14l11-7z"/>
+                        </svg>
+                      </div>
+                    </div>
+                    {selectedVideoId === video.id && (
+                      <div className="absolute top-2 right-2 bg-white text-black px-2 py-1 rounded text-xs font-semibold">
+                        ▶ Reproduciendo
+                      </div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          {/* Social Media Icons */}
+          <div className="mt-6 mb-4 flex gap-6 items-center">
           <a 
             href="https://www.youtube.com/@mayaendo" 
             target="_blank" 
@@ -167,113 +306,10 @@ export default function Home() {
             />
           </a>
         </div>
-        
-        <div className="mt-4 mb-4 fade-in-3 flex justify-center">
-          <a
-            href="https://open.spotify.com/prerelease/4ytx3xGGExP7SeT2WosqFi?si=c80e0cf450c34c78" 
-            target="_blank"
-            rel="noopener noreferrer"
-            className="bg-transparent text-white border-2 border-white py-2 px-6 rounded-full font-semibold hover:bg-white/10 transition-colors text-sm"
-          >
-            mi álbum en spotify
-          </a>
-        </div>
-        
-        <div className="mt-2 mb-8 fade-in-3 max-w-2xl w-full scale-90 transform">
-          <HangmanGame />
-        </div>
-      </div>
 
-      {/* Popup Modal */}
-      {showPopup && popupContent && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4" onClick={closePopup}>
-          <div 
-            className="bg-gray-100 border-2 border-gray-400 shadow-2xl max-w-lg w-full relative animate-scale-in"
-            style={{
-              borderTopColor: '#fff',
-              borderLeftColor: '#fff',
-              borderRightColor: '#808080',
-              borderBottomColor: '#808080'
-            }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Barra de título estilo XP */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-700 px-3 py-2 border-b border-gray-400 flex items-center justify-between">
-              <div className="flex items-center space-x-2">
-                <Gamepad2 className="text-white" size={16} />
-                <h1 className="text-white text-sm font-semibold">
-                  Mensaje Importante
-                </h1>
-              </div>
-              <div className="flex space-x-1">
-                <div className="w-4 h-4 bg-gray-300 border border-gray-500 flex items-center justify-center text-xs">_</div>
-                <div className="w-4 h-4 bg-gray-300 border border-gray-500 flex items-center justify-center text-xs">□</div>
-                <button 
-                  onClick={closePopup}
-                  className="w-4 h-4 bg-red-500 border border-red-700 flex items-center justify-center text-xs text-white"
-                  aria-label="Cerrar"
-                >x</button>
-              </div>
-            </div>
-            
-            {/* Contenido de la ventana */}
-            <div className="p-4 bg-gray-100">
-              
-              <div className="text-center">
-                {popupContent.image && (
-                  <div className="relative w-full aspect-[4/5] mx-auto mb-4 rounded-lg overflow-hidden shadow-md"> 
-                    <a 
-                      href="https://www.joinnus.com/events/concerts/lima-maya-endo-presenta-todo-eso-que-sone-71421"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cursor-pointer"
-                    >
-                      <Image
-                        src={popupContent.image}
-                        alt={popupContent.title || 'Concert Announcement'}
-                        width={400} 
-                        height={500}
-                        className="w-full h-full object-cover"
-                      />
-                    </a>
                   </div>
-                )}
-                
-                {popupContent.title && (
-                  <h2 className="text-lg md:text-xl text-[#4A3B31] font-semibold mb-1">
-                    {popupContent.title}
-                  </h2>
-                )}
-                
-                {popupContent.description && (
-                  <p className="text-black/70 text-sm md:text-base mb-3 px-1">
-                    {popupContent.description}
-                  </p>
-                )}
-
-                {popupContent.message && (
-                  <p className="text-black/70 text-sm md:text-base mb-5 px-1">
-                    {popupContent.message}
-                  </p>
-                )}
-                
-                <div className="flex justify-center">
-                  <a 
-                    href="https://www.joinnus.com/events/concerts/lima-maya-endo-presenta-todo-eso-que-sone-71421"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={confirmPopup}
-                    className="bg-[#00E5B5] text-black hover:bg-black hover:text-white active:bg-[#111111] font-semibold py-2 px-10 rounded-full transition-colors duration-200 text-md md:text-lg shadow-md hover:shadow-lg inline-block flex items-center justify-center"
-                  >
-                    tickets en joinnus <Ticket size={18} className="ml-2" />
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-  )
+      </section>
+      </div>
+    </>
+  );
 }
-
