@@ -22,7 +22,7 @@ export async function GET() {
 
     const data = await response.json();
 
-    const videos = data.items.map((item: any) => ({
+    const videos = data.items.map((item: { snippet: { resourceId: { videoId: string }; title: string; thumbnails?: { medium?: { url: string }; default?: { url: string } } } }) => ({
       id: item.snippet.resourceId.videoId,
       title: item.snippet.title,
       thumbnail: item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url,

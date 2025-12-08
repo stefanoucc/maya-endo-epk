@@ -18,7 +18,7 @@ export default function Home() {
   const [heroHeight, setHeroHeight] = useState(1000);
   const [isMobile, setIsMobile] = useState(false);
   const [selectedVideoId, setSelectedVideoId] = useState('F_QXezs3Ue8');
-  const [playlistVideos, setPlaylistVideos] = useState<PlaylistVideo[]>([
+  const [playlistVideos] = useState<PlaylistVideo[]>([
     { id: 'F_QXezs3Ue8', title: 'Video 1' },
     { id: 'dmdaKFtTo2k', title: 'Video 2' },
     { id: 'V_hpYm-jOrM', title: 'Video 3' },
@@ -32,7 +32,6 @@ export default function Home() {
     { id: 'B-xVmwya_J8', title: 'Video 11' },
     { id: 'GRp-H46xZIM', title: 'Video 12' },
   ]);
-  const [loadingVideos, setLoadingVideos] = useState(false);
 
   useEffect(() => {
     // Videos are now manually defined in the playlistVideos state
