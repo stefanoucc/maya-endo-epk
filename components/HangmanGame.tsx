@@ -5,6 +5,10 @@ import React, { useState, useEffect } from 'react'
 const WORD = "TODO ESO QUE SOÑÉ"
 const WORD_EXTENDED = "TODO ESO QUE SOÑÉ LP DEBUT"
 
+const normalizeLetter = (letter: string) => {
+  return letter.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+};
+
 // Define a smiling man SVG component
 const SMILING_MAN = (
   <g key="smiling-man">
@@ -92,10 +96,10 @@ export default function HangmanGame() {
     const timers = [
       { letters: ['D', 'Ñ'], delay: 0 },      // Initial letters
       { letters: ['T', 'O'], delay: 2000 },   // 2s
-      { letters: ['E', 'S'], delay: 4000 },   // 4s
+      { letters: ['E', 'É', 'S'], delay: 4000 },   // 4s - Added 'É'
       { letters: ['Q', 'U'], delay: 6000 },   // 6s
       { letters: ['A'], delay: 8000 },        // 8s
-      { letters: ['O', 'É'], delay: 10000 },  // 10s - final reveal
+      { letters: ['O'], delay: 10000 },  // 10s - final reveal
     ];
 
     const timeouts = timers.map(({ letters, delay }) => 
@@ -123,13 +127,13 @@ export default function HangmanGame() {
     
     if (!isExtended) {
       // When switching to extended phrase, show all letters immediately
-      const allLetters = WORD_EXTENDED.split("").filter(char => char !== " ");
-      setGuessedLetters(allLetters);
+      const allLetters = WORD_EXTENDED.split("").filter(char => char !== " ").map(normalizeLetter);
+      setGuessedLetters(Array.from(new Set(allLetters))); // Use Set to avoid duplicates after normalization
       const opacities = allLetters.reduce((acc, letter) => ({ ...acc, [letter]: 1 }), {});
       setLetterOpacities(opacities);
     } else {
       // When switching back to original phrase, reset to initial state
-      setGuessedLetters(['D', 'Ñ']);
+      setGuessedLetters(['D', 'Ñ'].map(normalizeLetter));
       setLetterOpacities({
         'D': 1,
         'Ñ': 1
@@ -148,7 +152,7 @@ export default function HangmanGame() {
               <span 
                 key={index}
                 style={{ 
-                  opacity: letterOpacities[letter] ?? 0,
+                  opacity: guessedLetters.includes(normalizeLetter(letter)) ? 1 : 0,
                   transition: 'opacity 0.5s ease-in-out',
                   display: 'inline-block'
                 }}
@@ -163,7 +167,7 @@ export default function HangmanGame() {
                 <span 
                   key={index}
                   style={{ 
-                    opacity: letterOpacities[letter] ?? 0,
+                    opacity: guessedLetters.includes(normalizeLetter(letter)) ? 1 : 0,
                     transition: 'opacity 0.5s ease-in-out',
                     display: 'inline-block'
                   }}
@@ -211,7 +215,7 @@ export default function HangmanGame() {
       </div>
 
       <div className="flex justify-center relative">
-        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gray-800 px-2 sm:px-3 py-1 text-white font-instrument text-xs sm:text-sm border-2 border-gray-400 rounded-md text-center min-w-[100px] sm:min-w-[120px]">
+        <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 px-2 sm:px-3 py-1 font-instrument text-xs sm:text-sm rounded-md text-center min-w-[100px] sm:min-w-[120px] bg-transparent text-white border-2 border-white">
           juego completado
         </div>
         <svg 

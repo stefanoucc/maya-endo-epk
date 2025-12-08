@@ -6,20 +6,27 @@ import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
 const navigationLinks = [
-  { href: "/?from=navbar", label: "Home", logo: "/LOGO darkmode.png" },
-  { href: "/quiz1", label: "Quiz 1", logo: "/LOGO darkmode.png" },
-  { href: "/quiz2", label: "Quiz 2", logo: "/LOGO darkmode.png" },
-  { href: "/match-calculator", label: "Match Calculator", logo: "/LOGO darkmode.png" },
+  { href: "/?from=navbar", label: "Home", logo: "/NUEVO LOGO.png" },
+  { href: "/quiz1", label: "Quiz 1", logo: "/NUEVO LOGO.png" },
+  { href: "/quiz2", label: "Quiz 2", logo: "/NUEVO LOGO.png" },
+  { href: "/match-calculator", label: "Match Calculator", logo: "/NUEVO LOGO.png" },
+  { href: "/hastapronto", label: "Hasta Pronto", logo: "/NUEVO LOGO.png" },
 ];
 
 export function MenuButton({ onClick }: { onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className="fixed top-4 left-4 z-50 p-2.5 md:p-3 bg-black/70 backdrop-blur-sm rounded-full transition-all duration-300 hover:bg-black/90 touch-manipulation shadow-md"
+      className="fixed top-4 left-4 z-50 p-2.5 md:p-3 bg-black/70 backdrop-blur-sm rounded-full transition-all duration-300 hover:bg-black/90 touch-manipulation shadow-md flex items-center justify-center"
       aria-label="Open menu"
     >
-      <Menu className="w-5 h-5 md:w-6 md:h-6 text-amber-100" />
+      <Image
+        src="/maya-endo-logo.png"
+        alt="Maya Endo Logo"
+        width={20}
+        height={20}
+        className="w-5 h-5 md:w-6 md:h-6 object-contain"
+      />
     </button>
   );
 }
@@ -121,7 +128,7 @@ export default function NavMenu() {
                   >
                     <div className="relative w-48 h-16 md:w-56 md:h-18">
                       <Image
-                        src={activeLink === link.href ? "/LOGO darkmode.png" : "/logo_silueta.png"}
+                        src={activeLink === link.href ? "/NUEVO LOGO.png" : "/logo_silueta.png"}
                         alt={link.label}
                         fill
                         className="object-contain"

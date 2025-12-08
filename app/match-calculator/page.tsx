@@ -2,8 +2,10 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+// import { track } from '@vercel/analytics';
 
 export default function MatchCalculatorPage() {
+  // const [showPopup, setShowPopup] = useState(true);
   const [name1, setName1] = useState('');
   const [name2, setName2] = useState('');
   const [compatibility, setCompatibility] = useState<number | null>(null);
@@ -43,22 +45,20 @@ export default function MatchCalculatorPage() {
     calculateCompatibility();
   };
   
-  const bgImage = compatibility !== null && compatibility <= 50 ? "/quiz3/momento2.jpg" : "/quiz3/momento1.jpg";
-  const logoSrc = compatibility !== null && compatibility <= 50 ? "/LOGO darkmode.png" : "/NUEVO LOGO.png";
+  const logoSrc = "/images/malasuerte.png";
   const logoClassName = `w-full h-auto object-contain`;
 
   return (
     <div 
-      className="min-h-screen bg-cover bg-center font-satoshi transition-all duration-1000"
-      style={{ backgroundImage: `url(${bgImage})` }}
+      className="min-h-screen bg-[#1a1b24] font-satoshi transition-all duration-1000"
     >
-      <div className="min-h-screen bg-black/60 flex flex-col items-center justify-center p-4 md:p-8 pt-10 md:pt-12 relative z-10">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 md:p-8 pt-10 md:pt-12 relative z-10">
         <div className="w-full max-w-[120px] mb-4 md:mb-6">
           <Image 
             src={logoSrc}
             alt="Maya Endo Logo"
-            width={200} 
-            height={200}
+            width={150} 
+            height={250}
             className={logoClassName}
             priority
           />
@@ -135,10 +135,10 @@ export default function MatchCalculatorPage() {
                 <>
                     <p className="text-xl text-gray-200">es evidente el mal tiempo y lugar:</p>
                     <div className="relative w-48 h-48 mx-auto mt-4 flex items-center justify-center">
-                    <div className="absolute inset-0 bg-white/20 rounded-full animate-ping-slow"></div>
-                    <div className="relative w-40 h-40 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-4 border-white/50">
-                        <span className="text-6xl font-bold text-white">{Math.round(compatibility)}<span className="text-4xl">%</span></span>
-                    </div>
+                        <div className="absolute inset-0 bg-white/20 rounded-full animate-ping-slow"></div>
+                        <div className="relative w-40 h-40 bg-black/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-lg border-4 border-white/50">
+                            <span className="text-6xl font-bold text-white">{Math.round(compatibility)}<span className="text-4xl">%</span></span>
+                        </div>
                     </div>
                     <div className="mt-8">
                         <p className="text-2xl font-bold text-white tracking-wider">&apos;Mala Suerte&apos;</p>

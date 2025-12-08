@@ -35,7 +35,7 @@ const beverageOptions = [
     name: "",
     image: "/quiz1/vinotintov2.png",
     popupImage: "/quiz1/vino en taza gif 2.gif",
-    message: "si solo queda vino, brindemos.\n\n\"vino en taza\"\n\nprimer single del álbum.\n\nestreno en mayo de 2025."
+    message: "si solo queda vino, brindemos.\n\n\"vino en taza\"\n\nprimer single del álbum."
   },
 ];
 
