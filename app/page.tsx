@@ -17,7 +17,7 @@ export default function Home() {
   const [scrollY, setScrollY] = useState(0);
   const [heroHeight, setHeroHeight] = useState(1000);
   const [isMobile, setIsMobile] = useState(false);
-  const [selectedVideoId, setSelectedVideoId] = useState('F_QXezs3Ue8');
+  const [selectedVideoId, setSelectedVideoId] = useState('dmdaKFtTo2k');
   const [playlistVideos] = useState<PlaylistVideo[]>([
     { id: 'F_QXezs3Ue8', title: 'Video 1' },
     { id: 'dmdaKFtTo2k', title: 'Video 2' },
