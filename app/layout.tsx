@@ -77,7 +77,7 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: "MAYA ENDO",
-  description: "Maya Endo Spoiler",
+  description: "www.mayaendo.com",
   icons: {
     icon: [
       {
