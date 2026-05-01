@@ -1,0 +1,1350 @@
+/* Ajuste visual del hitbox: descomenta la siguiente línea en .screenButton para alinear */
+.container {
+  position: relative;
+  /* Por debajo del overlay del menú (z-30); por encima del contenido general cuando aplique */
+  z-index: 25;
+  isolation: isolate;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--mac-cream);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  cursor: default;
+}
+
+/* Agrupa fondo + escritorio (zoom unificado en móvil) */
+.heroStage {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animatedBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.4s ease-out;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.animatedBackgroundImg {
+  object-fit: contain;
+  object-position: center;
+}
+
+.skyZone {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  z-index: 2;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.skyZone:hover {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+.grassZone {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 35%;
+  z-index: 6;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.3s ease, backdrop-filter 0.3s ease;
+}
+
+.grassZone:hover {
+  background: rgba(139, 154, 125, 0.12);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+}
+
+/* Refuerzo + SFX (viento, pasto, campana, hola): cursor “mano”, alta especificidad */
+.container .skyZone,
+.container .grassZone,
+.container .screenButton:not(:disabled),
+.container .mayaClickZone,
+.container .deskBirdClickZone {
+  cursor: pointer !important;
+}
+
+.container .skipButton {
+  cursor: pointer;
+}
+
+/* Viento/pasto desactivados hasta completar el minijuego (sin sonido ni clic) */
+.container .skyZone.sfxZoneDisabled,
+.container .grassZone.sfxZoneDisabled {
+  pointer-events: none !important;
+  cursor: default !important;
+}
+
+.soundNotification {
+  position: fixed;
+  top: calc(32px + env(safe-area-inset-top, 0px));
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 600;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 2px solid var(--mac-gray-mid);
+  border-radius: 20px;
+  padding: 8px 20px;
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: 13px;
+  color: var(--mac-gray-dark);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  animation: notificationPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes notificationPop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-10px) scale(0.9);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .soundNotification {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+.deskContainer {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4vw;
+  box-sizing: border-box;
+  /* No robar hover/clic: el PNG es grande y se solapa con cielo/pasto (z menor).
+     Solo los botones vuelven a recibir eventos. */
+  pointer-events: none;
+}
+
+/*
+  Tras completar: el overlay .completionMessage tiene z-index 200 y cubre el viewport.
+  Sin esto, en mobile los toques no llegan a Maya/pajarito (quedan “debajo” del overlay).
+  210–600: por debajo de popup (700) y notificación (600), por encima del texto final.
+*/
+.deskContainerOnTop {
+  z-index: 210;
+}
+
+/*
+  Misma proporción que COMPUTER-DESK.png (2560×1440).
+  width limita altura vía aspect-ratio; calc evita superar 85vh (sin “zoom” raro).
+*/
+.deskImageWrap {
+  position: relative;
+  isolation: isolate;
+  width: min(92vw, 1200px, calc(85vh * 2560 / 1440));
+  aspect-ratio: 2560 / 1440;
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+/* Tras completar el minijuego: los botones Maya/pajarito deben recibir toque (Safari iOS). */
+.deskImageWrapInteractive {
+  pointer-events: auto;
+}
+
+/* El wrapper de next/image puede cubrir todo el escritorio y robar clics al botón */
+.deskImageLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.deskCrossfadeRoot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.deskImage {
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.deskImageStacked {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 0.38s ease;
+}
+
+.deskImageVisible {
+  opacity: 1;
+}
+
+.deskImageHidden {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .deskImageStacked {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* Porcentajes relativos a .deskImageWrap — calibra con la pantalla verde del PNG */
+.screenButton {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 35%;
+  height: 45%;
+  z-index: 3;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border: none;
+  pointer-events: auto;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: filter 0.2s ease, transform 0.2s ease;
+  /* border: 2px dashed rgba(0, 255, 65, 0.5); */
+}
+
+.screenButton:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.screenButton:active:not(:disabled) {
+  transform: translateX(-50%) scale(0.98);
+}
+
+.screenButton:disabled {
+  cursor: default;
+}
+
+/* Zona clic sobre Maya (invisible); se reutiliza para el pajarito post-popup. */
+.mayaClickZone,
+.deskBirdClickZone {
+  position: absolute;
+  right: 15%;
+  bottom: 15%;
+  width: 180px;
+  height: 250px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 15;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transform: translateX(calc(-50% - 15%));
+}
+
+.mayaClickZone:hover,
+.deskBirdClickZone:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100dvh;
+  /* Sin velado: el juego y la UI siguen visibles; solo se superpone la tarjeta. */
+  background: transparent;
+  z-index: 700;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: max(40px, env(safe-area-inset-left, 0px));
+  padding-right: env(safe-area-inset-right, 0px);
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.popup {
+  position: relative;
+  cursor: auto;
+  background: var(--mac-cream);
+  border: 3px solid var(--mac-gray-mid);
+  border-radius: 12px;
+  padding: 28px 32px;
+  max-width: 480px;
+  width: 100%;
+  /* Ventana flotante tipo Mac, sin apagar el resto. */
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12), 0 12px 32px rgba(0, 0, 0, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  animation: popupSlideInLeft 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes popupSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+.popupClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--mac-gray-light);
+  border: 2px solid var(--mac-gray-mid);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--mac-gray-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.popupClose:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+.popupTitle {
+  font-family: var(--font-press-start), ui-monospace, monospace;
+  font-size: 16px;
+  color: var(--mac-gray-dark);
+  margin: 0 0 8px;
+  letter-spacing: 0.02em;
+  text-transform: none;
+}
+
+.popupKanji {
+  font-family: var(--font-dotgothic), "Hiragino Kaku Gothic ProN", sans-serif;
+  font-size: 28px;
+  color: var(--mac-blue-soft);
+  margin: 0 0 20px;
+  line-height: 1.2;
+}
+
+.popupText {
+  font-family: var(--font-vt323), monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.popupText em {
+  font-style: italic;
+  color: var(--mac-gray-dark);
+}
+
+.popupTextFinal {
+  font-family: var(--font-vt323), monospace;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin: 24px 0 0;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.popupDateLine {
+  font-family: var(--font-vt323), monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--mac-gray-dark);
+  margin: 8px 0 0;
+  font-weight: 500;
+}
+
+.popupSignature {
+  font-family: var(--font-vt323), monospace;
+  font-size: 13px;
+  color: var(--mac-gray-dark);
+  margin: 16px 0 0;
+  text-align: right;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup {
+    animation: none;
+  }
+}
+
+.skipButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 150;
+  padding: 8px 14px;
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--mac-beige);
+  border: 2px solid var(--mac-gray-light);
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  touch-action: manipulation;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.skipButton:hover {
+  background: var(--mac-tan);
+  border-color: var(--mac-gray-mid);
+}
+
+/* ============================================================
+   MINIJUEGO DE KANJIS (drag & drop / tap)
+   ============================================================ */
+
+/* Sección superior: instrucción + slots.
+   Vive en .container (no en .heroStage) para evitar la distorsión del scale móvil. */
+.topGameSection {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+
+  width: 90%;
+  max-width: 560px;
+}
+
+/* Sección inferior: kanjis movibles. */
+.bottomGameSection {
+  position: absolute;
+  bottom: 12%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  pointer-events: auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 90%;
+  max-width: 500px;
+}
+
+/* Instrucciones del minijuego (bloque + variantes escritorio / móvil) */
+.gameInstructionBlock {
+  font-family: var(--font-pixelify), sans-serif;
+  color: var(--mac-gray-dark);
+  text-align: center;
+
+  background: rgba(255, 249, 240, 0.96);
+  border: 2px solid var(--mac-gray-mid);
+  border-radius: 8px;
+  padding: 10px 16px;
+  max-width: 100%;
+  box-sizing: border-box;
+
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.gameInstructionTitle {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.gameInstructionHint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.45;
+  font-weight: 400;
+  opacity: 0.95;
+}
+
+.gameInstructionMobile {
+  display: none;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+  text-align: left;
+}
+
+.gameInstructionLine {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.gameInstructionStep {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--mac-cream);
+  background: var(--mac-gray-dark);
+  border-radius: 50%;
+}
+
+/* Fila de slots */
+.slotsContainer {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Slot base */
+.slot {
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+
+  border-radius: 8px;
+  border: 3px solid var(--mac-gray-mid);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-dotgothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", "Meiryo", sans-serif;
+  font-size: 34px;
+  color: var(--mac-gray-dark);
+
+  cursor: pointer;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.slot:hover {
+  border-color: var(--mac-blue-soft);
+  transform: scale(1.04);
+}
+
+/* Slot vacío: borde punteado, fondo semitransparente */
+.slotEmpty {
+  border-style: dashed;
+  background: rgba(255, 249, 240, 0.85);
+}
+
+/* Ghost del kanji esperado dentro del slot vacío */
+.slotGhost {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--mac-gray-mid);
+  opacity: 0.38;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Slot lleno: kanji colocado */
+.slotFilled {
+  background: var(--mac-cream);
+  border-style: solid;
+  border-color: var(--mac-blue-soft);
+  animation: slotPlace 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slotPlace {
+  0% {
+    transform: scale(0.75);
+    opacity: 0.4;
+  }
+  60% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Shake en slot incorrecto */
+.slotShake {
+  animation: slotShake 0.4s ease;
+}
+
+@keyframes slotShake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-7px);
+  }
+  40% {
+    transform: translateX(7px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+/* Fila de kanjis disponibles */
+.kanjisContainer {
+  display: flex;
+  gap: 14px;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* Kanji movible */
+.kanjiPiece {
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+
+  background: white;
+  border: 2px solid var(--mac-gray-mid);
+  border-radius: 8px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: var(--font-dotgothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", "Meiryo", sans-serif;
+  font-size: 32px;
+  color: var(--text-primary);
+
+  cursor: grab;
+  touch-action: manipulation;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease,
+    background 0.18s ease, color 0.18s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kanjiPiece:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.14);
+  border-color: var(--mac-blue-soft);
+}
+
+.kanjiPiece:active {
+  cursor: grabbing;
+}
+
+.kanjiPieceDragging {
+  opacity: 0.4;
+  cursor: grabbing;
+}
+
+.kanjiPieceSelected {
+  background: var(--mac-blue-soft);
+  border-color: var(--mac-blue-soft);
+  color: white;
+  transform: scale(1.12) translateY(-4px);
+  box-shadow: 0 6px 20px rgba(123, 159, 196, 0.48);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slotFilled,
+  .slotShake {
+    animation: none;
+  }
+}
+
+.completionMessage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  min-height: 100dvh;
+  z-index: 200;
+  box-sizing: border-box;
+  pointer-events: none;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+
+  animation: textReveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes textRevealReduced {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.topSection {
+  text-align: center;
+  padding-top: max(10vh, env(safe-area-inset-top, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.bottomSection {
+  text-align: center;
+  padding-bottom: max(8vh, env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.artistName {
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: clamp(15px, 4.2vw, 24px);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--mac-gray-dark);
+  margin: 0 0 16px;
+  line-height: 1.4;
+  text-shadow: -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white,
+    2px 2px 0 white, 0 0 8px rgba(255, 255, 255, 0.9),
+    0 0 16px rgba(255, 255, 255, 0.7);
+}
+
+.title {
+  font-family: var(--font-press-start), ui-monospace, monospace;
+  font-size: clamp(1.25rem, 5vw, 2.25rem);
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  line-height: 1.4;
+  text-shadow: -3px -3px 0 white, 3px -3px 0 white, -3px 3px 0 white,
+    3px 3px 0 white, 0 0 12px rgba(255, 255, 255, 0.95),
+    0 0 24px rgba(255, 255, 255, 0.8);
+}
+
+.titleChunk {
+  display: inline;
+}
+
+.titleChunk:first-child::after {
+  content: " ";
+}
+
+.kanji {
+  font-family: var(--font-dotgothic), "Hiragino Kaku Gothic ProN", "Hiragino Sans",
+    "Yu Gothic UI", "Meiryo", sans-serif;
+  font-size: clamp(1.5rem, 7vw, 2.5rem);
+  margin: 14px 0 0;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  text-shadow: -3px -3px 0 white, 3px -3px 0 white, -3px 3px 0 white,
+    3px 3px 0 white, 0 0 12px rgba(255, 255, 255, 0.95),
+    0 0 22px rgba(255, 255, 255, 0.75);
+}
+
+.epLabel {
+  font-family: var(--font-press-start), ui-monospace, monospace;
+  font-size: clamp(11px, 2.8vw, 14px);
+  letter-spacing: 0.2em;
+  color: #fff;
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  text-shadow: -2px -2px 0 rgba(44, 44, 44, 0.9),
+    2px -2px 0 rgba(44, 44, 44, 0.9),
+    -2px 2px 0 rgba(44, 44, 44, 0.9),
+    2px 2px 0 rgba(44, 44, 44, 0.9),
+    0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+.releaseDate {
+  font-family: var(--font-vt323), monospace;
+  font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+  color: #fff;
+  letter-spacing: 0.08em;
+  margin: 0;
+  text-shadow: -2px -2px 0 rgba(44, 44, 44, 0.9),
+    2px -2px 0 rgba(44, 44, 44, 0.9),
+    -2px 2px 0 rgba(44, 44, 44, 0.9),
+    2px 2px 0 rgba(44, 44, 44, 0.9),
+    0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.exploreHint {
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 24px 0 0;
+  letter-spacing: 0.05em;
+  line-height: 1.4;
+  text-shadow: -1px -1px 0 rgba(44, 44, 44, 0.8),
+    1px -1px 0 rgba(44, 44, 44, 0.8),
+    -1px 1px 0 rgba(44, 44, 44, 0.8),
+    1px 1px 0 rgba(44, 44, 44, 0.8);
+  animation: gentlePulse 3s ease-in-out infinite;
+}
+
+@media (min-width: 769px) {
+  .exploreHint {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.9);
+    margin-top: 22px;
+    padding: 8px 14px;
+    max-width: min(300px, 90vw);
+    margin-left: auto;
+    margin-right: auto;
+    background: rgba(28, 30, 34, 0.58);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 9px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.24),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    line-height: 1.35;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+    animation: exploreHintDesktopPulse 3.2s ease-in-out infinite;
+  }
+}
+
+@keyframes exploreHintDesktopPulse {
+  0%,
+  100% {
+    opacity: 0.95;
+    transform: translateY(0);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes gentlePulse {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .completionMessage {
+    animation: textRevealReduced 0.45s ease forwards;
+  }
+
+  .exploreHint {
+    animation: none;
+    opacity: 0.85;
+  }
+
+  @media (min-width: 769px) {
+    .exploreHint {
+      animation: none;
+      opacity: 1;
+    }
+  }
+}
+
+@media (min-height: 900px) {
+  .topSection {
+    padding-top: max(15vh, env(safe-area-inset-top, 0px));
+  }
+
+  .bottomSection {
+    padding-bottom: max(12vh, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media (max-height: 600px) {
+  .topSection {
+    padding-top: max(5vh, env(safe-area-inset-top, 0px));
+  }
+
+  .bottomSection {
+    padding-bottom: max(4vh, env(safe-area-inset-bottom, 0px));
+  }
+
+  @media (min-width: 769px) {
+    .title {
+      font-size: clamp(1rem, 6vw, 1.75rem);
+    }
+  }
+
+  @media (min-width: 769px) {
+    .kanji {
+      font-size: clamp(1.5rem, 8vw, 2.25rem);
+    }
+  }
+}
+
+/* Móvil: fondo en ventana ~cuadrada (zoom contain + scale, sin cover) + desk más grande */
+@media (max-width: 768px) {
+  /*
+    Mismo rectángulo que .animatedBackground: el texto no cae en las bandas crema del viewport.
+  */
+  .completionMessage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: min(100vw, 100dvh);
+    height: min(100vw, 100dvh);
+    max-width: 100vw;
+    max-height: 100dvh;
+    transform: translate(-50%, -50%);
+    min-height: unset;
+  }
+
+  .container {
+    height: 100dvh;
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0)
+      env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+    box-sizing: border-box;
+  }
+
+  .heroStage {
+    transform: scale(1.25);
+    transform-origin: center center;
+  }
+
+  /* SFX cielo/pasto: +20% de altura vs antes (viento más abajo, pasto más arriba) */
+  .skyZone {
+    height: 46%;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0.15);
+  }
+
+  .skyZone:active {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .grassZone {
+    height: 38%;
+    -webkit-tap-highlight-color: rgba(139, 154, 125, 0.2);
+  }
+
+  .grassZone:active {
+    background: rgba(139, 154, 125, 0.2);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .animatedBackground {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: min(100vw, 100dvh);
+    height: min(100vw, 100dvh);
+    max-width: 100vw;
+    max-height: 100dvh;
+    transform: translate(-50%, -50%);
+  }
+
+  .animatedBackgroundImg {
+    object-fit: contain;
+    object-position: center center;
+    transform: scale(1.52);
+    transform-origin: center center;
+  }
+
+  .deskContainer {
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /*
+    Casi ancho completo y más alto útil; scale agranda el Mac (zoom visual).
+    El botón sigue en % del mismo box → hitbox coherente.
+  */
+  .deskImageWrap {
+    width: min(100vw, calc(92dvh * 2560 / 1440));
+    max-height: 92dvh;
+    transform: scale(1.24);
+    transform-origin: center center;
+  }
+
+  .skipButton {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+  }
+
+  .initialHint {
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+    max-width: calc(100vw - 24px);
+    font-size: 14px;
+  }
+
+  .progressHint {
+    bottom: calc(28px + env(safe-area-inset-bottom, 0px));
+    padding: 14px 18px 16px;
+    gap: 8px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .progressCount {
+    font-size: clamp(1.35rem, 5vw, 1.85rem);
+  }
+
+  .progressSub {
+    font-size: clamp(13px, 3.8vw, 16px);
+  }
+
+  .topSection {
+    padding-top: 8vh;
+    padding-left: max(10px, env(safe-area-inset-left, 0px));
+    padding-right: max(10px, env(safe-area-inset-right, 0px));
+  }
+
+  .bottomSection {
+    padding-bottom: 6vh;
+    padding-left: max(10px, env(safe-area-inset-left, 0px));
+    padding-right: max(10px, env(safe-area-inset-right, 0px));
+  }
+
+  .artistName {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .title {
+    font-size: clamp(10px, 3.35vmin, 14px);
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    max-width: 100%;
+    margin-inline: auto;
+    padding-inline: 4px;
+    box-sizing: border-box;
+  }
+
+  .titleChunk {
+    display: block;
+  }
+
+  .titleChunk:first-child::after {
+    content: none;
+  }
+
+  /*
+    Kanji compacto: que no invada la zona del escritorio dentro del cuadrado del overlay.
+    (Opción B: si se duplicara el kanji en JSX, un solo id="taru-kanji" en el nodo visible;
+    el duplicado aria-hidden sin id — revisar aria-labelledby del dialog.)
+  */
+  .kanji {
+    font-size: clamp(10px, 2.6vmin, 14px);
+    margin: 6px 0 0;
+    letter-spacing: 0.03em;
+    line-height: 1.15;
+    text-shadow: -2px -2px 0 white, 2px -2px 0 white, -2px 2px 0 white,
+      2px 2px 0 white, 0 0 8px rgba(255, 255, 255, 0.9),
+      0 0 16px rgba(255, 255, 255, 0.7);
+  }
+
+  .epLabel {
+    font-size: 11px;
+  }
+
+  .releaseDate {
+    font-size: 22px;
+  }
+
+  .exploreHint {
+    font-size: 11px;
+    margin-top: 20px;
+  }
+
+  .soundNotification {
+    top: calc(20px + env(safe-area-inset-top, 0px));
+    font-size: 14px;
+    padding: 10px 24px;
+  }
+
+  .popupOverlay {
+    justify-content: center;
+    padding-left: max(20px, env(safe-area-inset-left, 0px));
+    padding-right: max(20px, env(safe-area-inset-right, 0px));
+  }
+
+  .popup {
+    max-width: 100%;
+    padding: 24px 20px;
+  }
+
+  .popupTitle {
+    font-size: 14px;
+  }
+
+  .popupKanji {
+    font-size: 24px;
+  }
+
+  .popupText {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .popupTextFinal {
+    font-size: 15px;
+    margin-top: 20px;
+  }
+
+  .popupDateLine {
+    font-size: 14px;
+  }
+
+  .popupSignature {
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  /*
+    Muñequita / pajarito: centrado sobre la figura (borde derecha del PNG ~76–78%).
+    Objetivo táctil >= ~88px para dedos; left + translateX(-50%) alinea mejor que right+fijo.
+  */
+  .mayaClickZone {
+    right: auto;
+    left: 76%;
+    bottom: 5%;
+    transform: translateX(-50%);
+    width: min(36vw, 140px);
+    height: min(30vw, 120px);
+    min-width: 88px;
+    min-height: 80px;
+    max-width: 148px;
+    max-height: 132px;
+  }
+
+  .deskBirdClickZone {
+    right: auto;
+    left: 76%;
+    bottom: 5%;
+    transform: translateX(-50%);
+    width: min(34vw, 132px);
+    height: min(28vw, 114px);
+    min-width: 88px;
+    min-height: 76px;
+    max-width: 140px;
+    max-height: 124px;
+  }
+
+  .mayaClickZone:active,
+  .deskBirdClickZone:active {
+    background: rgba(255, 255, 255, 0.09);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  /* Minijuego móvil: más cerca del centro vertical (escritorio en medio) */
+  .topGameSection {
+    top: 30%;
+    width: 98%;
+    gap: 8px;
+  }
+
+  .bottomGameSection {
+    bottom: 30%;
+    width: 98%;
+  }
+
+  .gameInstructionBlock {
+    padding: 8px 12px;
+  }
+
+  .gameInstructionTitle {
+    display: none;
+  }
+
+  .gameInstructionHint {
+    font-size: 11px;
+  }
+
+  .gameInstructionStep {
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+  }
+
+  .gameInstructionMobile {
+    display: flex;
+  }
+
+  .slotsContainer {
+    gap: 6px;
+  }
+
+  .slot {
+    width: 54px;
+    height: 54px;
+    font-size: 26px;
+    border-width: 2px;
+  }
+
+  .slotGhost {
+    -webkit-text-stroke: 1.5px var(--mac-gray-mid);
+  }
+
+  .kanjisContainer {
+    gap: 8px;
+  }
+
+  .kanjiPiece {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+}
+
+/* Pantalla ancha pero entrada táctil: mismas pistas que en móvil */
+@media (min-width: 769px) and (hover: none) and (pointer: coarse) {
+  .gameInstructionTitle {
+    display: none;
+  }
+
+  .gameInstructionMobile {
+    display: flex;
+  }
+}
+
+/* Pantallas estrechas: mismo criterio +20% sobre las alturas previas de esta media query */
+@media (max-width: 480px) {
+  .skyZone {
+    height: 50%;
+  }
+
+  .grassZone {
+    bottom: 0;
+    height: 43%;
+  }
+
+  .mayaClickZone {
+    left: 74%;
+    bottom: 4%;
+    width: min(38vw, 136px);
+    height: min(32vw, 118px);
+    min-width: 88px;
+    min-height: 78px;
+    max-width: 144px;
+    max-height: 128px;
+  }
+
+  .deskBirdClickZone {
+    left: 74%;
+    bottom: 4%;
+    width: min(36vw, 128px);
+    height: min(30vw, 112px);
+    min-width: 88px;
+    min-height: 74px;
+    max-width: 136px;
+    max-height: 120px;
+  }
+
+  .topGameSection {
+    top: 28%;
+    gap: 6px;
+  }
+
+  .bottomGameSection {
+    bottom: 28%;
+  }
+
+  .gameInstructionHint {
+    font-size: 10px;
+  }
+
+  .slot {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+
+  .kanjiPiece {
+    width: 44px;
+    height: 44px;
+    font-size: 20px;
+  }
+}

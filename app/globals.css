@@ -65,6 +65,21 @@ body {
 
 @layer base {
   :root {
+    /* Mac retro minimal (sitio / navegación / minijuego) */
+    --mac-beige: #f2e8d5;
+    --mac-cream: #fff9f0;
+    --mac-tan: #e8dcc8;
+    --mac-gray-light: #e0e0e0;
+    --mac-gray-mid: #a0a0a0;
+    --mac-gray-dark: #4a4a4a;
+    --mac-blue-soft: #7b9fc4;
+    --mac-green-moss: #8b9a7d;
+    /* Global layout shell (vintage Mac bezel — replaces honeycomb) */
+    --mac-shell-base: #161412;
+    --mac-shell-overlay: rgba(22, 20, 18, 0.74);
+    --text-primary: #2c2c2c;
+    --text-secondary: #666666;
+
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
@@ -121,6 +136,37 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Vintage Mac global shell (layout root; replaces honeycomb-bg image) */
+.appShell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--mac-shell-base);
+  background-image:
+    repeating-linear-gradient(
+      180deg,
+      rgba(255, 248, 235, 0.04) 0px,
+      transparent 1px,
+      transparent 2px
+    ),
+    linear-gradient(
+      148deg,
+      #45423e 0%,
+      #2f2c29 36%,
+      #221f1c 68%,
+      var(--mac-shell-base) 100%
+    );
+  background-size:
+    100% 3px,
+    100% 100%;
+  background-attachment: fixed;
+}
+
+.appShellInner {
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--mac-shell-overlay);
 }
 
 @keyframes fadeIn {

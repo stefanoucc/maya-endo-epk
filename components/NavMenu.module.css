@@ -1,0 +1,387 @@
+.menuOpenButton {
+  position: fixed;
+  top: calc(24px + env(safe-area-inset-top, 0px));
+  left: calc(24px + env(safe-area-inset-left, 0px));
+  z-index: 1000;
+  box-sizing: border-box;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid rgba(44, 44, 44, 0.22);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.menuOpenButtonLogo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  opacity: 0.92;
+  filter: brightness(0.32);
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
+}
+
+.menuOpenButton:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(44, 44, 44, 0.38);
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14), 0 2px 4px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+
+.menuOpenButton:hover .menuOpenButtonLogo {
+  opacity: 1;
+  transform: scale(1.05);
+  filter: brightness(0.22);
+}
+
+.menuOpenButton:active {
+  transform: scale(1.03);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12),
+    inset 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+@media (hover: hover) and (min-width: 769px) {
+  .menuOpenButton::after {
+    content: "Menú";
+    position: absolute;
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-family: var(--font-pixelify), sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    color: #fff;
+    white-space: nowrap;
+    background: rgba(44, 44, 44, 0.94);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .menuOpenButton:hover::after {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .menuOpenButton {
+    top: calc(20px + env(safe-area-inset-top, 0px));
+    left: calc(20px + env(safe-area-inset-left, 0px));
+    width: 48px;
+    height: 48px;
+  }
+
+  .menuOpenButtonLogo {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 50;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--mac-gray-light);
+  border-radius: 999px;
+  background: var(--mac-cream);
+  color: var(--text-primary);
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.closeButton:hover {
+  background: var(--mac-beige);
+  border-color: var(--mac-gray-mid);
+}
+
+.closeIcon {
+  color: var(--text-primary);
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  height: 100%;
+  width: min(100%, 320px);
+  max-width: 85vw;
+  display: flex;
+  flex-direction: column;
+  background: var(--mac-cream);
+  border-right: 2px solid var(--mac-gray-mid);
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.08);
+  overflow-y: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.drawerClosed {
+  transform: translateX(-100%);
+}
+
+.drawerOpen {
+  transform: translateX(0);
+}
+
+.inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 56px 24px 24px;
+  min-height: 0;
+}
+
+.menuList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.menuItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 20px;
+  margin: 0;
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-primary);
+  text-decoration: none;
+  text-align: left;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menuItem:hover {
+  background: var(--mac-beige);
+  color: var(--text-primary);
+}
+
+.menuItemActive {
+  background: rgba(123, 159, 196, 0.15);
+  color: var(--text-primary);
+}
+
+.menuItemHighlight {
+  position: relative;
+  background: var(--mac-blue-soft);
+  color: #fff;
+  font-weight: 600;
+}
+
+.menuItemHighlight:hover {
+  background: #6a8eb5;
+  color: #fff;
+}
+
+.menuItemHighlight::before {
+  content: "▶ ";
+  color: #fff;
+  font-size: 0.75em;
+}
+
+.newBadge {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 4px 8px;
+  font-family: var(--font-press-start), ui-monospace, monospace;
+  font-size: 8px;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--mac-green-moss);
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.groupWrap {
+  margin-top: 4px;
+  border-radius: 8px;
+  border: 1px solid var(--mac-gray-light);
+  background: rgba(255, 249, 240, 0.6);
+  overflow: hidden;
+}
+
+.groupHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 12px 10px 14px;
+  box-sizing: border-box;
+}
+
+.groupTitleLink {
+  flex: 1;
+  min-width: 0;
+  padding: 10px 8px;
+  margin: 0;
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-primary);
+  text-decoration: none;
+  text-align: left;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.groupTitleLink:hover {
+  background: var(--mac-beige);
+}
+
+.groupTitleLinkActive {
+  background: rgba(123, 159, 196, 0.18);
+  color: var(--text-primary);
+  box-shadow: inset 3px 0 0 var(--mac-blue-soft);
+}
+
+.groupExpandBtn {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--mac-gray-dark);
+  transition: background 0.2s ease;
+}
+
+.groupExpandBtn:hover {
+  background: var(--mac-beige);
+}
+
+.chevron {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  color: var(--mac-gray-dark);
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+.subList {
+  list-style: none;
+  margin: 0;
+  padding: 8px 0 12px;
+  border-top: 1px solid var(--mac-gray-light);
+}
+
+.menuSection {
+  border-left: 2px solid var(--mac-gray-light);
+  margin-left: 12px;
+  padding-left: 8px;
+}
+
+.menuSubItem {
+  display: block;
+  padding: 10px 16px;
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: 14px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.menuSubItem:hover {
+  background: var(--mac-beige);
+  color: var(--text-primary);
+}
+
+.menuSubItemActive {
+  font-weight: 600;
+  color: var(--text-primary);
+  background: rgba(123, 159, 196, 0.12);
+  border-left: 2px solid var(--mac-blue-soft);
+  margin-left: -2px;
+  padding-left: 16px;
+}
+
+.socialIcons {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Enlaces de iconos en pie del menú: tono gris suave */
+.socialIcons :global(a) {
+  opacity: 0.75;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.socialIcons :global(a:hover) {
+  opacity: 1;
+}
+
+.menuOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(242, 232, 213, 0.95);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+
+.menuOverlayHidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menuOverlayVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+@media (min-width: 640px) {
+  .drawer {
+    max-width: 320px;
+  }
+}

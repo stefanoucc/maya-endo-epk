@@ -3,242 +3,245 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { X } from "lucide-react";
+import { X, ChevronDown } from "lucide-react";
+import { usePathname } from "next/navigation";
+import SocialLinks from "@/components/SocialLinks";
+import styles from "./NavMenu.module.css";
 
-const navigationLinks = [
-  { href: "/?from=navbar", label: "Home", logo: "/NUEVO LOGO.png" },
-  { href: "/quiz1", label: "Quiz 1", logo: "/NUEVO LOGO.png" },
-  { href: "/quiz2", label: "Quiz 2", logo: "/NUEVO LOGO.png" },
-  { href: "/match-calculator", label: "Match Calculator", logo: "/NUEVO LOGO.png" },
-  { href: "/hastapronto", label: "Hasta Pronto", logo: "/NUEVO LOGO.png" },
+type SubItem = { href: string; label: string };
+
+type MenuEntry =
+  | {
+      type: "link";
+      href: string;
+      label: string;
+      isNew?: boolean;
+      highlight?: boolean;
+    }
+  | { type: "group"; label: string; href: string; subItems: SubItem[] };
+
+const menuItems: MenuEntry[] = [
+  {
+    type: "link",
+    href: "/taru-wo-shiru",
+    label: "TARU WO SHIRU",
+    isNew: true,
+    highlight: true,
+  },
+  {
+    type: "group",
+    label: "TODO ESO QUE SOÑÉ",
+    href: "/todo-eso-que-sone",
+    subItems: [
+      { href: "/quiz1", label: "Elige tu taza" },
+      { href: "/quiz2", label: "Pequeño mundo" },
+      { href: "/match-calculator", label: "Calculadora de compatibilidad" },
+      { href: "/hastapronto", label: "Hasta Pronto" },
+    ],
+  },
 ];
 
-export function MenuButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="fixed top-4 left-4 z-50 p-2.5 md:p-3 bg-black/70 backdrop-blur-sm rounded-full transition-all duration-300 hover:bg-black/90 touch-manipulation shadow-md flex items-center justify-center"
-      aria-label="Open menu"
-    >
-      <Image
-        src="/maya-endo-logo.png"
-        alt="Maya Endo Logo"
-        width={20}
-        height={20}
-        className="w-5 h-5 md:w-6 md:h-6 object-contain"
-      />
-    </button>
-  );
+function pathMatchesSubItem(pathname: string, href: string): boolean {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
 }
 
-export function CloseButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="absolute top-4 right-4 z-50 p-2.5 bg-black/70 rounded-full transition-all duration-300 hover:bg-black/90 touch-manipulation shadow-md"
-      aria-label="Close menu"
-    >
-      <X className="w-5 h-5 md:w-6 md:h-6 text-amber-100" />
-    </button>
-  );
+function isTeqsGroupActive(pathname: string): boolean {
+  const group = menuItems.find((m) => m.type === "group");
+  if (!group || group.type !== "group") return false;
+  if (pathname === group.href) return true;
+  return group.subItems.some((s) => pathMatchesSubItem(pathname, s.href));
 }
 
 export default function NavMenu() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [activeLink, setActiveLink] = useState("/");
   const [isMobile, setIsMobile] = useState(false);
+  const [teqsOpen, setTeqsOpen] = useState(() => isTeqsGroupActive(pathname));
 
   useEffect(() => {
-    // Set active link based on current path
-    const pathname = window.location.pathname;
-    setActiveLink(pathname === '/' ? '/?from=navbar' : pathname);
-    
-    // Check if mobile view
+    setTeqsOpen(isTeqsGroupActive(pathname));
+  }, [pathname]);
+
+  useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    
-    // Run initial check
     checkIfMobile();
-    
-    // Close menu when clicking outside
+    window.addEventListener("resize", checkIfMobile);
+
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (isOpen && !target.closest('[data-nav-menu]')) {
+      if (isOpen && !target.closest("[data-nav-menu]")) {
         setIsOpen(false);
       }
     };
-    
-    // Close menu when pressing escape key
+
     const handleEscape = (e: KeyboardEvent) => {
-      if (isOpen && e.key === 'Escape') {
+      if (isOpen && e.key === "Escape") {
         setIsOpen(false);
       }
     };
-    
-    // Add event listeners
-    window.addEventListener('resize', checkIfMobile);
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('keydown', handleEscape);
-    
-    // Handle body scroll lock when menu is open on mobile
+
+    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
     if (isOpen && isMobile) {
-      document.body.style.overflow = 'hidden';
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = '';
+      document.body.style.overflow = "";
     }
-    
+
     return () => {
-      window.removeEventListener('resize', checkIfMobile);
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = '';
+      window.removeEventListener("resize", checkIfMobile);
+      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
     };
   }, [isOpen, isMobile]);
 
+  const isLinkActive = (href: string) => {
+    if (href === "/taru-wo-shiru") {
+      return (
+        pathname === "/" ||
+        pathname === "/taru-wo-shiru" ||
+        pathname.startsWith("/taru-wo-shiru/")
+      );
+    }
+    return pathname === href || pathname.startsWith(`${href}/`);
+  };
+
   return (
     <>
-      {/* Only show menu button when menu is closed */}
       {!isOpen && (
-        <MenuButton onClick={() => setIsOpen(true)} />
+        <button
+          type="button"
+          className={styles.menuOpenButton}
+          onClick={() => setIsOpen(true)}
+          aria-label="Abrir menú de navegación"
+        >
+          <Image
+            src="/maya-endo-logo.png"
+            alt=""
+            width={28}
+            height={28}
+            className={styles.menuOpenButtonLogo}
+          />
+        </button>
       )}
-      
+
       <div
         data-nav-menu
-        className={`fixed top-0 left-0 z-40 h-full w-[85%] sm:w-[70%] max-w-[280px] transform transition-transform duration-300 ease-in-out overflow-y-auto ${
-          isOpen ? "translate-x-0 shadow-lg shadow-black/50" : "-translate-x-full"
-        }`}
+        className={`${styles.drawer} ${isOpen ? styles.drawerOpen : styles.drawerClosed}`}
       >
-        <CloseButton onClick={() => setIsOpen(false)} />
-        
-        <div className="flex flex-col p-4 pt-16 h-full">
+        <button
+          type="button"
+          className={styles.closeButton}
+          onClick={() => setIsOpen(false)}
+          aria-label="Cerrar menú"
+        >
+          <X className={`h-5 w-5 md:h-6 md:w-6 ${styles.closeIcon}`} aria-hidden />
+        </button>
+
+        <div className={styles.inner}>
           <nav className="flex-1">
-            <div className="flex flex-col items-center justify-center space-y-10 md:space-y-14 mt-4">
-              {navigationLinks.map((link) => (
-                <div key={link.href}>
-                  <Link 
-                    href={link.href}
-                    onClick={() => setIsOpen(false)}
-                    className={`block transition-all duration-300 ${
-                      activeLink === link.href
-                        ? "scale-105 opacity-100"
-                        : "opacity-75 hover:opacity-95 hover:scale-105"
-                    }`}
-                    aria-label={link.label}
-                  >
-                    <div className="relative w-48 h-16 md:w-56 md:h-18">
-                      <Image
-                        src={activeLink === link.href ? "/NUEVO LOGO.png" : "/logo_silueta.png"}
-                        alt={link.label}
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 768px) 12rem, 14rem"
-                        priority={activeLink === link.href}
-                      />
+            <ul className={styles.menuList}>
+              {menuItems.map((entry) => {
+                if (entry.type === "link") {
+                  const active = isLinkActive(entry.href);
+                  const linkClass = [
+                    styles.menuItem,
+                    entry.highlight && styles.menuItemHighlight,
+                    active && !entry.highlight && styles.menuItemActive,
+                  ]
+                    .filter(Boolean)
+                    .join(" ");
+
+                  return (
+                    <li key={entry.href}>
+                      <Link
+                        href={entry.href}
+                        onClick={() => setIsOpen(false)}
+                        className={linkClass}
+                      >
+                        <span>{entry.label}</span>
+                        {entry.isNew && (
+                          <span className={styles.newBadge}>NUEVO</span>
+                        )}
+                      </Link>
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={entry.href} className={styles.groupWrap}>
+                    <div className={styles.groupHeaderRow}>
+                      <Link
+                        href={entry.href}
+                        onClick={() => setIsOpen(false)}
+                        className={`${styles.groupTitleLink} ${pathname === entry.href ? styles.groupTitleLinkActive : ""}`}
+                      >
+                        {entry.label}
+                      </Link>
+                      <button
+                        type="button"
+                        className={styles.groupExpandBtn}
+                        onClick={() => setTeqsOpen((o) => !o)}
+                        aria-expanded={teqsOpen}
+                        aria-controls="teqs-submenu"
+                        aria-label={
+                          teqsOpen
+                            ? "Ocultar enlaces de TODO ESO QUE SOÑÉ"
+                            : "Mostrar más enlaces"
+                        }
+                      >
+                        <ChevronDown
+                          className={`${styles.chevron} ${teqsOpen ? styles.chevronOpen : ""}`}
+                          aria-hidden
+                        />
+                      </button>
                     </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                    {teqsOpen && (
+                      <ul
+                        id="teqs-submenu"
+                        className={`${styles.subList} ${styles.menuSection}`}
+                      >
+                        {entry.subItems.map((sub) => {
+                          const subActive = pathMatchesSubItem(
+                            pathname,
+                            sub.href
+                          );
+                          return (
+                            <li key={sub.href}>
+                              <Link
+                                href={sub.href}
+                                onClick={() => setIsOpen(false)}
+                                className={`${styles.menuSubItem} ${subActive ? styles.menuSubItemActive : ""}`}
+                              >
+                                {sub.label}
+                              </Link>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
           </nav>
-          
-          <div className="mt-auto pt-8 pb-6">
-            <div className="flex flex-col gap-6">
-              {/* First row: YouTube, Spotify, Instagram */}
-              <div className="flex justify-center gap-8">
-                <a 
-                  href="https://www.youtube.com/@mayaendo" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-110 p-2"
-                  aria-label="YouTube"
-                >
-                  <Image 
-                    src="/YOUTUBE.png" 
-                    alt="YouTube" 
-                    width={28} 
-                    height={28}
-                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
-                  />
-                </a>
-                <a 
-                  href="https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-110 p-2"
-                  aria-label="Spotify"
-                >
-                  <Image 
-                    src="/SPOTI.png" 
-                    alt="Spotify" 
-                    width={28} 
-                    height={28}
-                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
-                  />
-                </a>
-                <a 
-                  href="https://instagram.com/_mayaendo" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-110 p-2"
-                  aria-label="Instagram"
-                >
-                  <Image 
-                    src="/INSTA.png" 
-                    alt="Instagram" 
-                    width={28} 
-                    height={28}
-                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
-                  />
-                </a>
-              </div>
-              
-              {/* Second row: TikTok, Apple Music */}
-              <div className="flex justify-center gap-8">
-                <a 
-                  href="https://tiktok.com/@_mayaendo" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-110 p-2"
-                  aria-label="TikTok"
-                >
-                  <Image 
-                    src="/TIKTOK.png" 
-                    alt="TikTok" 
-                    width={28} 
-                    height={28}
-                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
-                  />
-                </a>
-                <a 
-                  href="https://music.apple.com/pe/artist/maya-endo/1587969753" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="transition-transform hover:scale-110 p-2"
-                  aria-label="Apple Music"
-                >
-                  <Image 
-                    src="/APPLE MUSIC.png" 
-                    alt="Apple Music" 
-                    width={28} 
-                    height={28}
-                    className="object-contain w-6 h-6 md:w-7 md:h-7" 
-                  />
-                </a>
-              </div>
-            </div>
+
+          <div className={styles.socialIcons}>
+            <SocialLinks variant="nav" />
           </div>
         </div>
       </div>
-      
-      {/* Overlay when menu is open */}
-      <div 
-        className={`fixed inset-0 bg-black/60 z-30 transition-opacity duration-300 ${
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        }`}
+
+      <div
+        className={`${styles.menuOverlay} ${isOpen ? styles.menuOverlayVisible : styles.menuOverlayHidden}`}
         onClick={() => setIsOpen(false)}
         aria-hidden="true"
       />
     </>
   );
-} 
+}
