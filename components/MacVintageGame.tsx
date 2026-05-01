@@ -23,6 +23,8 @@ const FRAME_INTERVAL_MS = 500;
 
 const MAYA_HOLA_SRC = "/audio/maya-hola.mp3";
 const BIRD_SRC = "/audio/bird.mp3";
+/** Imagen para compartir (móvil, Web Share API). */
+const SHARE_PROMO_IMAGE_SRC = "/images/maya-taruwoshiru-14may.jpg";
 const POPUP_DELAY_MS = 500;
 const WAVE_REVERT_MS = 10_000;
 const NOTIFICATION_MS = 1500;
@@ -345,6 +347,54 @@ export default function MacVintageGame() {
     if (!postPopupClosed) return;
     triggerBirdFeedback();
   }, [postPopupClosed, triggerBirdFeedback]);
+
+  /** Móvil: Web Share con imagen JPG; fallback enlace + WhatsApp. */
+  const handleSharePromo = useCallback(async () => {
+    if (typeof window === "undefined") return;
+    const pageUrl = window.location.href;
+    const shareTitle = "Maya Endo — Taru wo shiru";
+    const shareText = "Taru wo shiru · 14 mayo";
+
+    try {
+      const res = await fetch(SHARE_PROMO_IMAGE_SRC);
+      if (!res.ok) throw new Error("share image fetch");
+      const blob = await res.blob();
+      const file = new File([blob], "maya-taruwoshiru-14may.jpg", {
+        type: blob.type || "image/jpeg",
+      });
+      const withFiles: ShareData = {
+        files: [file],
+        title: shareTitle,
+        text: shareText,
+        url: pageUrl,
+      };
+      if (navigator.share && navigator.canShare?.(withFiles)) {
+        await navigator.share(withFiles);
+        return;
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
+    }
+
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: shareTitle,
+          text: `${shareText}\n${pageUrl}`,
+          url: pageUrl,
+        });
+        return;
+      }
+    } catch (err) {
+      if (err instanceof Error && err.name === "AbortError") return;
+    }
+
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(`${shareText} ${pageUrl}`)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }, []);
 
   // ── SFX zones ─────────────────────────────────────────────────────────────
   const handleSkyClick = useCallback(() => {
@@ -673,6 +723,38 @@ export default function MacVintageGame() {
       )}
 
       <AudioControls show={isCompleted} />
+
+      {isCompleted && (
+        <div className={styles.shareWrap}>
+          <button
+            type="button"
+            className={styles.shareButton}
+            onClick={() => void handleSharePromo()}
+            aria-label="Compartir imagen Taru wo shiru"
+          >
+            <span className={styles.shareIcon} aria-hidden>
+              📤
+            </span>
+            <span className={styles.shareLabel}>Compartir</span>
+          </button>
+        </div>
+      )}
+
+      {isCompleted && postPopupClosed && !showPopup && (
+        <div className={styles.discoverMoreWrap}>
+          <button
+            type="button"
+            className={styles.discoverMoreButton}
+            onClick={() => setShowPopup(true)}
+            aria-label="Descubrir más: abrir texto sobre Taru wo shiru"
+          >
+            <span className={styles.discoverMoreIcon} aria-hidden>
+              ✦
+            </span>
+            <span className={styles.discoverMoreLabel}>Descubrir más</span>
+          </button>
+        </div>
+      )}
 
       {showPopup && (
         <div
