@@ -1,5 +1,6 @@
 "use client";
 
+import { Pause, Play } from "lucide-react";
 import { useAudio } from "@/components/AudioManager";
 import styles from "./AudioControls.module.css";
 
@@ -36,7 +37,11 @@ export default function AudioControls({ show }: AudioControlsProps) {
         title={isPlaying ? "Pausar música" : "Reproducir música"}
       >
         <span className={styles.icon} aria-hidden>
-          {isPlaying ? "⏸" : "▶"}
+          {isPlaying ? (
+            <Pause size={18} strokeWidth={2} />
+          ) : (
+            <Play size={18} strokeWidth={2} />
+          )}
         </span>
         <span className={styles.label}>
           {isPlaying ? "Pausar" : "Música"}

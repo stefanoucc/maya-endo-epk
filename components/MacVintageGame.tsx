@@ -8,6 +8,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
+import { Share2, Sparkles, X } from "lucide-react";
 import AudioControls from "@/components/AudioControls";
 import { useAudio } from "@/components/AudioManager";
 import styles from "./MacVintageGame.module.css";
@@ -42,7 +43,7 @@ const TOTAL_EQUIV_CLICKS = KANJI_ORDER.length * CLICKS_PER_KANJI; // 10
 const SFX_NOTIFICATION: Record<"viento" | "pasto" | "pajarito", string> = {
   viento: "🌬️ Viento",
   pasto: "🍃 Pasto",
-  pajarito: "🐦 Pajarito",
+  pajarito: "🐦 Pájaro",
 };
 
 const SFX_HAPTIC_MS = 50;
@@ -352,8 +353,7 @@ export default function MacVintageGame() {
   const handleSharePromo = useCallback(async () => {
     if (typeof window === "undefined") return;
     const pageUrl = window.location.href;
-    const shareTitle = "Maya Endo — Taru wo shiru";
-    const shareText = "Taru wo shiru · 14 mayo";
+    const shareCopy = "TARU WO SHIRU - 14 de mayo (EP)";
 
     try {
       const res = await fetch(SHARE_PROMO_IMAGE_SRC);
@@ -364,8 +364,8 @@ export default function MacVintageGame() {
       });
       const withFiles: ShareData = {
         files: [file],
-        title: shareTitle,
-        text: shareText,
+        title: shareCopy,
+        text: shareCopy,
         url: pageUrl,
       };
       if (navigator.share && navigator.canShare?.(withFiles)) {
@@ -379,8 +379,8 @@ export default function MacVintageGame() {
     try {
       if (navigator.share) {
         await navigator.share({
-          title: shareTitle,
-          text: `${shareText}\n${pageUrl}`,
+          title: shareCopy,
+          text: `${shareCopy}\n${pageUrl}`,
           url: pageUrl,
         });
         return;
@@ -390,7 +390,7 @@ export default function MacVintageGame() {
     }
 
     window.open(
-      `https://wa.me/?text=${encodeURIComponent(`${shareText} ${pageUrl}`)}`,
+      `https://wa.me/?text=${encodeURIComponent(`${shareCopy} ${pageUrl}`)}`,
       "_blank",
       "noopener,noreferrer"
     );
@@ -565,7 +565,7 @@ export default function MacVintageGame() {
                 type="button"
                 className={styles.deskBirdClickZone}
                 onClick={handleDeskBirdClick}
-                aria-label="Sonido del pajarito"
+                aria-label="Sonido del pájaro"
               />
             )}
             {isCompleted && !easterPlayed && (
@@ -733,7 +733,7 @@ export default function MacVintageGame() {
             aria-label="Compartir imagen Taru wo shiru"
           >
             <span className={styles.shareIcon} aria-hidden>
-              📤
+              <Share2 size={18} strokeWidth={2} />
             </span>
             <span className={styles.shareLabel}>Compartir</span>
           </button>
@@ -749,7 +749,7 @@ export default function MacVintageGame() {
             aria-label="Descubrir más: abrir texto sobre Taru wo shiru"
           >
             <span className={styles.discoverMoreIcon} aria-hidden>
-              ✦
+              <Sparkles size={18} strokeWidth={2} />
             </span>
             <span className={styles.discoverMoreLabel}>Descubrir más</span>
           </button>
@@ -775,7 +775,7 @@ export default function MacVintageGame() {
               onClick={closePopupWithEffects}
               aria-label="Cerrar"
             >
-              ✕
+              <X size={18} strokeWidth={2} aria-hidden />
             </button>
 
             <h3 id="eg-popup-title" className={styles.popupTitle}>
