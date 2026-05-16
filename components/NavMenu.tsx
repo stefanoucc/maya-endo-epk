@@ -17,8 +17,17 @@ type MenuEntry =
       label: string;
       isNew?: boolean;
       highlight?: boolean;
+      external?: boolean;
     }
   | { type: "group"; label: string; href: string; subItems: SubItem[] };
+
+const YOUTUBE_URL = "https://www.youtube.com/@mayaendo";
+const SPOTIFY_ARTIST_URL =
+  "https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi?si=Mu5w6s9SRxWWqCUCLfj-FQ";
+const INSTAGRAM_URL = "https://www.instagram.com/_mayaendo/";
+const TIKTOK_URL = "https://www.tiktok.com/@_mayaendo";
+const APPLE_MUSIC_URL =
+  "https://music.apple.com/us/artist/maya-endo/1587969753";
 
 const menuItems: MenuEntry[] = [
   {
@@ -38,6 +47,36 @@ const menuItems: MenuEntry[] = [
       { href: "/match-calculator", label: "Calculadora de compatibilidad" },
       { href: "/hastapronto", label: "Hasta Pronto" },
     ],
+  },
+  {
+    type: "link",
+    href: YOUTUBE_URL,
+    label: "YOUTUBE",
+    external: true,
+  },
+  {
+    type: "link",
+    href: SPOTIFY_ARTIST_URL,
+    label: "SPOTIFY",
+    external: true,
+  },
+  {
+    type: "link",
+    href: INSTAGRAM_URL,
+    label: "INSTAGRAM",
+    external: true,
+  },
+  {
+    type: "link",
+    href: TIKTOK_URL,
+    label: "TIKTOK",
+    external: true,
+  },
+  {
+    type: "link",
+    href: APPLE_MUSIC_URL,
+    label: "APPLE MUSIC",
+    external: true,
   },
 ];
 
@@ -157,18 +196,36 @@ export default function NavMenu() {
                     .filter(Boolean)
                     .join(" ");
 
+                  const linkContent = (
+                    <>
+                      <span>{entry.label}</span>
+                      {entry.isNew && (
+                        <span className={styles.newBadge}>NUEVO</span>
+                      )}
+                    </>
+                  );
+
                   return (
                     <li key={entry.href}>
-                      <Link
-                        href={entry.href}
-                        onClick={() => setIsOpen(false)}
-                        className={linkClass}
-                      >
-                        <span>{entry.label}</span>
-                        {entry.isNew && (
-                          <span className={styles.newBadge}>NUEVO</span>
-                        )}
-                      </Link>
+                      {entry.external ? (
+                        <a
+                          href={entry.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() => setIsOpen(false)}
+                          className={linkClass}
+                        >
+                          {linkContent}
+                        </a>
+                      ) : (
+                        <Link
+                          href={entry.href}
+                          onClick={() => setIsOpen(false)}
+                          className={linkClass}
+                        >
+                          {linkContent}
+                        </Link>
+                      )}
                     </li>
                   );
                 }

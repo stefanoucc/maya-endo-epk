@@ -8,7 +8,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { Share2, Sparkles, X } from "lucide-react";
+import { Headphones, Share2, Sparkles, X } from "lucide-react";
 import AudioControls from "@/components/AudioControls";
 import { useAudio } from "@/components/AudioManager";
 import styles from "./MacVintageGame.module.css";
@@ -26,6 +26,8 @@ const MAYA_HOLA_SRC = "/audio/maya-hola.mp3";
 const BIRD_SRC = "/audio/bird.mp3";
 /** Imagen para compartir (móvil, Web Share API). */
 const SHARE_PROMO_IMAGE_SRC = "/images/maya-taruwoshiru-14may.jpg";
+const EP_LISTEN_URL =
+  "https://share.amuse.io/track/maya-endo-taru-wo-shiru";
 const POPUP_DELAY_MS = 500;
 const WAVE_REVERT_MS = 10_000;
 const NOTIFICATION_MS = 1500;
@@ -604,6 +606,17 @@ export default function MacVintageGame() {
             <div className={styles.bottomSection}>
               <p className={styles.epLabel}>EP</p>
               <p className={styles.releaseDate}>14 mayo 2026</p>
+              <a
+                href={EP_LISTEN_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.listenEpButton}
+              >
+                <span className={styles.listenEpIcon} aria-hidden>
+                  <Headphones size={18} strokeWidth={2} />
+                </span>
+                <span className={styles.listenEpLabel}>Escuchar el EP</span>
+              </a>
               <p id="explore-sounds-hint" className={styles.exploreHint}>
                 Explora sonidos haciendo click
               </p>

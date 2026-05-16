@@ -87,7 +87,8 @@
   cursor: pointer !important;
 }
 
-.container .skipButton {
+.container .skipButton,
+.container .listenEpButton {
   cursor: pointer;
 }
 
@@ -152,9 +153,9 @@
 }
 
 /*
-  Tras completar: el overlay .completionMessage tiene z-index 200 y cubre el viewport.
-  Sin esto, en mobile los toques no llegan a Maya/pajarito (quedan “debajo” del overlay).
-  210–600: por debajo de popup (700) y notificación (600), por encima del texto final.
+  Tras completar: Maya/pajarito deben recibir toque por encima del texto final.
+  El overlay .completionMessage usa z-index 220 (por encima del desk) con pointer-events: none
+  salvo en .listenEpButton; así el enlace al EP es clicable y el resto del overlay deja pasar el clic al desk.
 */
 .deskContainerOnTop {
   z-index: 210;
@@ -907,7 +908,7 @@
   width: 100%;
   height: 100vh;
   min-height: 100dvh;
-  z-index: 200;
+  z-index: 220;
   box-sizing: border-box;
   pointer-events: none;
 
@@ -952,6 +953,8 @@
 }
 
 .bottomSection {
+  position: relative;
+  z-index: 1;
   text-align: center;
   padding-bottom: max(8vh, env(safe-area-inset-bottom, 0px));
   padding-left: max(16px, env(safe-area-inset-left, 0px));
@@ -1031,6 +1034,58 @@
     -2px 2px 0 rgba(44, 44, 44, 0.9),
     2px 2px 0 rgba(44, 44, 44, 0.9),
     0 0 10px rgba(0, 0, 0, 0.6);
+}
+
+.listenEpButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin: 18px 0 0;
+  padding: 12px 20px 12px 16px;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  background: var(--mac-cream);
+  border: 2px solid var(--mac-gray-mid);
+  border-radius: 24px;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--mac-gray-dark);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease,
+    border-color 0.2s ease;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.listenEpButton:hover {
+  background: white;
+  border-color: var(--mac-gray-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.listenEpButton:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12),
+    inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.listenEpIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--mac-gray-dark);
+}
+
+.listenEpLabel {
+  font-family: var(--font-pixelify), sans-serif;
+  font-size: clamp(13px, 3.2vw, 15px);
+  font-weight: 500;
+  color: var(--mac-gray-dark);
+  white-space: nowrap;
 }
 
 .exploreHint {
@@ -1319,6 +1374,15 @@
 
   .releaseDate {
     font-size: 22px;
+  }
+
+  .listenEpButton {
+    margin-top: 14px;
+    padding: 10px 16px 10px 12px;
+  }
+
+  .listenEpLabel {
+    font-size: 12px;
   }
 
   .exploreHint {

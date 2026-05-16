@@ -9,22 +9,22 @@ const SOCIAL = [
     label: "YouTube",
   },
   {
-    href: "https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi",
+    href: "https://open.spotify.com/intl-es/artist/05swzPCeWZMjApcUBYLyyi?si=Mu5w6s9SRxWWqCUCLfj-FQ",
     src: "/SPOTI.png",
     label: "Spotify",
   },
   {
-    href: "https://instagram.com/_mayaendo",
+    href: "https://www.instagram.com/_mayaendo/",
     src: "/INSTA.png",
     label: "Instagram",
   },
   {
-    href: "https://tiktok.com/@_mayaendo",
+    href: "https://www.tiktok.com/@_mayaendo",
     src: "/TIKTOK.png",
     label: "TikTok",
   },
   {
-    href: "https://music.apple.com/pe/artist/maya-endo/1587969753",
+    href: "https://music.apple.com/us/artist/maya-endo/1587969753",
     src: "/APPLE MUSIC.png",
     label: "Apple Music",
   },
